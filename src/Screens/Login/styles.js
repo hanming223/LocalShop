@@ -24,7 +24,12 @@ export default {
         width: '100%', 
         backgroundColor: 'white', 
         borderColor: 'gray', 
-        borderWidth: 0.2
+        borderWidth: 0.1,
+        shadowColor: 'gray',
+        shadowRadius: 5,
+        shadowOpacity: 0.3,
+        marginTop: 10
+        
     },
 
     TextInputStyle: {
@@ -41,9 +46,29 @@ export default {
         justifyContent: 'center'
     },
 
-    signInStyle: {
+    signInStyle_selected: {
         color: 'white', 
         fontSize: 20, 
         fontWeight: 'bold'
+    },
+
+    signInStyle_unselected: {
+        color: '#ffc4b3', 
+        fontSize: 20, 
+        fontWeight: 'bold'
+    },
+
+    signInContainer: {
+        width: '100%', 
+        height: 45, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        backgroundColor: '#FF7642',
+        borderColor: 'gray',
+        borderWidth: 0.1,
+        shadowColor: 'white',
+        shadowRadius: 10,
+        shadowOpacity: 0.1,
+        marginTop: 20
     }
 };

@@ -28,7 +28,11 @@ export default class Login extends Component {
             email: "combatantek@gmail.com",
             password: "lol",
             animating: true,
+            isSignin: 0
         })
+        this.onSigninMode = this.onSigninMode.bind(this);
+        this.onSignupMode = this.onSignupMode.bind(this);
+        this.onSigninButton = this.onSigninButton.bind(this);
     }
 
     async componentDidMount() {
@@ -44,6 +48,14 @@ export default class Login extends Component {
         //     // this.props.navigation.navigate("PrimaryNav")
         // }
 
+    }
+
+    onSigninMode(){
+        this.setState({isSignin: 0})
+    }
+
+    onSignupMode(){
+        this.setState({isSignin: 1})
     }
 
     async onSigninButton() {
@@ -68,21 +80,30 @@ export default class Login extends Component {
         return (
             <ImageBackground style={Styles.backgroundImage} source={require('../../Assets/Images/login_top_bg.png')}>
             <SafeAreaView style={Styles.safeArea}>
-                <View style={{width: deviceWidth/2, height: deviceWidth/2, marginTop: 0, backgroundColor: '#fff'}}>
+                <View style={{width: deviceWidth/2, height: deviceWidth/2, marginTop: 0}}>
 
-                    <Text>  LOGO </Text>
+                    <Image source={require('../../Assets/Images/login_bottom_bg.png')}
+                                        style={{width: '100%', height: '100%', resizeMode: 'contain'}} />
 
                 </View>
 
                 <View style={{width: '80%', height: 40, marginTop: 20, flexDirection: 'row'}}>
                     <TouchableOpacity style={Styles.TouchableOpacityStyle}
-                        onPress={this.onSigninButton}>
-                        <Text style={Styles.signInStyle}>Sign In</Text>
+                        onPress={this.onSigninMode}>
+                        {this.state.isSignin == 0 ? (
+                            <Text style={Styles.signInStyle_selected}>Sign In</Text>
+                        ):(
+                            <Text style={Styles.signInStyle_unselected}>Sign In</Text>
+                        )}
                     </TouchableOpacity>
 
                     <TouchableOpacity style={Styles.TouchableOpacityStyle}
-                        onPress={this.onSigninButton}>
-                        <Text style={Styles.signInStyle}>Sign Up</Text>
+                        onPress={this.onSignupMode}>
+                        {this.state.isSignin == 1 ? (
+                            <Text style={Styles.signInStyle_selected}>Sign Up</Text>
+                        ):(
+                            <Text style={Styles.signInStyle_unselected}>Sign Up</Text>
+                        )}
                     </TouchableOpacity>
                 </View>
 
@@ -105,12 +126,24 @@ export default class Login extends Component {
                         />
                     </View>
 
-                    <TouchableOpacity style={{width: '100%', height: 45, alignItems: 'center', justifyContent: 'center'}}
+                    <TouchableOpacity style={Styles.signInContainer}
                         onPress={this.onSigninButton}>
-                        <Text style={Styles.signInStyle}>Sign In</Text>
+                        
+                        {this.state.isSignin == 0 ? (
+                            <Text style={Styles.signInStyle_selected}>Sign In</Text>
+                        ):(
+                            <Text style={Styles.signInStyle_selected}>Sign Up</Text>
+                        )}
+                        
                     </TouchableOpacity>
 
                 </View>
+
+                <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', flex: 1}}>
+                    <Image source={require('../../Assets/Images/login_bottom_bg.png')}
+                                        style={{width: '80%', height: '100%', resizeMode: 'contain'}} />
+                </View>
+
             </SafeAreaView>
             </ImageBackground>
         );
