@@ -15,7 +15,7 @@ export default {
         borderWidth: 0.1,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 15,
         shadowColor: 'gray',
         shadowRadius: 5,
         shadowOpacity: 0.3

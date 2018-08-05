@@ -45,10 +45,10 @@ export default class AddShop extends Component {
         return (
             <View style = {{alignItems: 'center', flexDirection: 'column', flex: 1}}>
             
-                <MapView
+                {/* <MapView
                     initialRegion={{latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922,longitudeDelta: 0.0421}}
                     style={{flex: 1, width: '100%', height: 400}}
-                    />
+                    /> */}
 
                 <View style={{width: '90%', alignItems: 'center', paddingBottom: 10, paddingTop: 10}}>
                     <View style={Styles.TextInputContainer}>

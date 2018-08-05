@@ -12,11 +12,12 @@ import {
     Text,
     AsyncStorage,
     SafeAreaView,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 
-import { vendor_getShopList, vendor_login } from "../../Components/Api";
-
+import { vendor_getShopList, vendor_login, vendor_signup } from "../../Components/Api";
+import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
 
 const deviceWidth = Dimensions.get("window").width;
@@ -27,9 +28,10 @@ export default class Login extends Component {
         this.state = ({
             email: "combatantek@gmail.com",
             password: "lol",
-            animating: true,
+            loading: false,
             isSignin: 0
         })
+
         this.onSigninMode = this.onSigninMode.bind(this);
         this.onSignupMode = this.onSignupMode.bind(this);
         this.onSigninButton = this.onSigninButton.bind(this);
@@ -59,20 +61,68 @@ export default class Login extends Component {
     }
 
     async onSigninButton() {
-
-        this.props.navigation.navigate("PrimaryNav")
-
-        // let formData = new FormData();
-        // formData.append('usr', this.state.email);
-        // formData.append('psw', this.state.password);
-
-        // let json = await vendor_login(formData)
         
-        // if (json.result == true){
-        //     AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
-        //     this.props.navigation.navigate("PrimaryNav")
+        this.setState({loading: true});
+
+        if (this.state.isSignin == 0){
+
+            let formData = new FormData();
+            formData.append('usr', this.state.email);
+            formData.append('psw', this.state.password);
+
+            let json = await vendor_login(formData)
+
+            if (json.result == true){
+
+                this.setState({loading: false})
+                
+                await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
+                await AsyncStorage.setItem("token", json.message)
+                this.props.navigation.navigate("PrimaryNav")
+                
+            }else{
+                
+                Alert.alert(
+                    'Oops!',
+                    'Invalid email or password.',
+                    [
+                      {text: 'OK', onPress: () => this.setState({loading: false})},
+                    ],
+                    { cancelable: false }
+                  )
+
+            }
+
+        }else{
             
-        // }
+            let formData = new FormData();
+            formData.append('email', this.state.email);
+            formData.append('psw', this.state.password);
+
+            let json = await vendor_signup(formData)
+
+            if (json.result == true){
+
+                this.setState({loading: false})
+                
+                await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
+                await AsyncStorage.setItem("token", json.message)
+                this.props.navigation.navigate("PrimaryNav")
+                
+            }else{
+                
+                Alert.alert(
+                    'Oops!',
+                    'Something went wrong!.',
+                    [
+                      {text: 'OK', onPress: () => this.setState({loading: false})},
+                    ],
+                    { cancelable: false }
+                  )
+
+            }
+
+        }
 
     }
 
@@ -80,14 +130,8 @@ export default class Login extends Component {
         return (
             <ImageBackground style={Styles.backgroundImage} source={require('../../Assets/Images/login_top_bg.png')}>
             <SafeAreaView style={Styles.safeArea}>
-                <View style={{width: deviceWidth/2, height: deviceWidth/2, marginTop: 0}}>
-
-                    <Image source={require('../../Assets/Images/login_bottom_bg.png')}
-                                        style={{width: '100%', height: '100%', resizeMode: 'contain'}} />
-
-                </View>
-
-                <View style={{width: '80%', height: 40, marginTop: 20, flexDirection: 'row'}}>
+                <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
+                <View style={{width: '80%', height: 40, marginTop: 50, flexDirection: 'row'}}>
                     <TouchableOpacity style={Styles.TouchableOpacityStyle}
                         onPress={this.onSigninMode}>
                         {this.state.isSignin == 0 ? (
@@ -112,7 +156,9 @@ export default class Login extends Component {
                         <TextInput
                             style={Styles.TextInputStyle}
                             placeholder="Email"
+                            keyboardType="email-address"
                             onChangeText={(text) => this.setState({email: text})}
+                            autoCapitalize='none'
                             value={this.state.email}
                         />
                     </View>
@@ -122,7 +168,8 @@ export default class Login extends Component {
                             placeholder="Password"
                             onChangeText={(text) => this.setState({password: text})}
                             value={this.state.password}
-                            
+                            autoCapitalize='none'
+                            secureTextEntry={true}
                         />
                     </View>
 
