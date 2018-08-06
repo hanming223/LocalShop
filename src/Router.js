@@ -22,7 +22,7 @@ export const PrimaryNav = StackNavigator({
     ShopHomeScreen: { 
         screen: ShopHome,
         navigationOptions: ({ navigation }) => ({
-            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Sports Shoes</Text>  ,
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{navigation.getParam('shopInfo').name}</Text>  ,
             headerStyle: { backgroundColor: '#EC6A41' },
             headerRight: <MenuIcon {...navigation} />,
             headerTintColor: 'white'

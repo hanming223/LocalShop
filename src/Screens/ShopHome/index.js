@@ -20,6 +20,7 @@ const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
 export default class ShopHome extends Component {
+
     constructor(props) {
         super(props);
         this.state = ({
@@ -31,6 +32,7 @@ export default class ShopHome extends Component {
 
     async componentDidMount() {
 
+        const shopInfo = this.props.navigation.getParam('shopInfo');
 
     }
 

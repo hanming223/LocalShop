@@ -27,6 +27,7 @@ export default class ShopList extends Component {
         })
 
         this.onAddButton = this.onAddButton.bind(this);
+        this.onPressItem = this.onPressItem.bind(this);
     }
 
     async componentDidMount() {
@@ -58,7 +59,11 @@ export default class ShopList extends Component {
     }
 
     onAddButton() {
-        this.props.navigation.navigate("ShopHomeScreen")
+        this.props.navigation.navigate("AddShopScreen")
+    }
+
+    onPressItem(item) {
+        this.props.navigation.navigate("ShopHomeScreen",{shopInfo: item})
     }
 
     render() {
@@ -68,19 +73,24 @@ export default class ShopList extends Component {
                 <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
 
                 <FlatList
-                    style={{flex: 1, width: '100%', height: '100%', marginBottom: 35, backgroundColor: 'blue'}}
+                    ItemSeparatorComponent={ () => <View style={ { width: '100%', height: 0.3, backgroundColor: 'gray' } } /> }
+
+                    style={{flex: 1, width: '100%', height: '100%', marginBottom: 32}}
                     data={this.state.shopArray}
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={item => item.id.toString()}
                     renderItem={({item, separators}) => {
+                        let imageLocation = "http://ls.antonioantek.com/images/" + item.preview + ".jpg"
                         return <TouchableHighlight
-                        onPress={() => this._onPress(item)}
+                        onPress={() => this.onPressItem(item)}
                         onShowUnderlay={separators.highlight}
                         onHideUnderlay={separators.unhighlight}
-                        style={{backgroundColor: 'red', height: 100, width: '100%'}}>
-                            <View style={{backgroundColor: 'white', flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={require('../../Assets/Images/login_bottom_bg.png')}
-                                        style={{width: 70, height: 70, resizeMode: 'contain'}} />
-                                <Text>{item.name}</Text>
+                        style={{backgroundColor: 'red', height: 80, width: '100%'}}>
+                            <View style={{backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', height: '100%'}}>
+                                <Image source={{uri: imageLocation}}
+                                        style={{width: 60, height: 60, resizeMode: 'contain', borderRadius: 30, borderWidth: 0.3, borderColor: 'gray', marginLeft: 20}} />
+                                <Text style={{fontSize: 16, fontWeight: '600', color: 'black', marginLeft: 20}}>{item.name}</Text>
+                                <Image source={require('../../Assets/Images/shoplist_arrow_icon.png')}
+                                        style={{width: 13, height: 18, resizeMode: 'contain', position: 'absolute', right: 20}} />
                             </View>
                         </TouchableHighlight>
                     }}
