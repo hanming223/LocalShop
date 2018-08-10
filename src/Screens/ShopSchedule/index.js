@@ -20,9 +20,10 @@ import {
 import CheckBox from 'react-native-check-box'
 import DatePicker from 'react-native-datepicker'
 import DayScheduleModel from '../../Components/DayScheduleModel'
+import Spinner from 'react-native-loading-spinner-overlay';
 
-
-import { vendor_getShopList } from "../../Components/Api";
+import { vendor_addshop, vendor_sendshop } from "../../Components/Api";
+import AppManager from '../../Components/AppManager';
 import Styles from './styles';
 
 const deviceWidth = Dimensions.get("window").width;
@@ -32,7 +33,8 @@ export default class ShopSchedule extends Component {
     constructor(props) {
         super(props);
         this.state = ({
-            data: []
+            data: [],
+            loading: false
         })
 
         this.onClick = this.onClick.bind(this);
@@ -110,7 +112,7 @@ export default class ShopSchedule extends Component {
 
     }
 
-    onDoneButton() {
+    async onDoneButton() {
 
         let temp = this.state.data;
 
@@ -136,13 +138,64 @@ export default class ShopSchedule extends Component {
 
         }
 
-        console.log('xxx', params);
+        AppManager.getInstance.shopInfoFormData.append('schedules', params);
+
+        this.setState({loading: true});
+
+        //add shop
+
+        let json = await vendor_addshop(AppManager.getInstance.addShopFormData);
+
+        let shopId;
+        if (json.result == true){
+            shopId = json.message;
+        }else{
+            Alert.alert(
+                'Oops!',
+                'Something went wrong!.',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+              )
+        }
+
+        //add shop information
+
+        AppManager.getInstance.shopInfoFormData.append('manageShop', shopId);
+
+        json = await vendor_sendshop(AppManager.getInstance.shopInfoFormData);
+
+        if (json.result == true){
+            Alert.alert(
+                'Success!',
+                'Shop added successfully.',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+              )
+        }else{
+            Alert.alert(
+                'Oops!',
+                'result.message',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+              )
+        }
+
+        
+
+        
 
     }
 
     render() {
         return (
             <SafeAreaView style={{flex: 1, alignItems: 'center', width: '100%'}}>
+                <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
                 <ScrollView contentContainerStyle = {{alignItems: 'center'}} style={{width: '100%' }}>
                 {this.state.data.map((prop, key) => {
                     

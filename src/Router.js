@@ -9,8 +9,10 @@ import ShopHome from "./Screens/ShopHome";
 import AddShop from "./Screens/AddShop";
 import ShopInfo from "./Screens/ShopInfo";
 import ShopSchedule from "./Screens/ShopSchedule";
+import ShopView from "./Screens/ShopView";
+import AppManager from './Components/AppManager';
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 export const PrimaryNav = StackNavigator({
     ShopListScreen: { 
@@ -25,7 +27,7 @@ export const PrimaryNav = StackNavigator({
     ShopHomeScreen: { 
         screen: ShopHome,
         navigationOptions: ({ navigation }) => ({
-            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{navigation.getParam('shopInfo').name}</Text>  ,
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{AppManager.getInstance.selectedShopInfo.name}</Text>  ,
             headerStyle: { backgroundColor: '#EC6A41' },
             headerRight: <MenuIcon {...navigation} />,
             headerTintColor: 'white'
@@ -55,6 +57,16 @@ export const PrimaryNav = StackNavigator({
         screen: ShopSchedule,
         navigationOptions: ({ navigation }) => ({
             headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Shop Schedule</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerRight: <MenuIcon {...navigation} />,
+            headerTintColor: 'white'
+        }), 
+    },
+
+    ShopViewScreen: { 
+        screen: ShopView,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{AppManager.getInstance.selectedShopInfo.name}</Text>  ,
             headerStyle: { backgroundColor: '#EC6A41' },
             headerRight: <MenuIcon {...navigation} />,
             headerTintColor: 'white'

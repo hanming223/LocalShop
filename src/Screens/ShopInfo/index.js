@@ -16,11 +16,12 @@ import {
     Text,
     AsyncStorage,
     SafeAreaView,
+    Alert,
     TouchableOpacity
 } from 'react-native';
 
 import { vendor_getShopList, vendor_login } from "../../Components/Api";
-
+import AppManager from '../../Components/AppManager';
 import Styles from './styles';
 
 const deviceWidth = Dimensions.get("window").width;
@@ -36,7 +37,7 @@ export default class ShopInfo extends Component {
             owner: '',
             city: '',
             address: '',
-            phone_prefix: '',
+            phonePrefix: '',
             phone: ''
         })
 
@@ -70,10 +71,7 @@ export default class ShopInfo extends Component {
 
     onDoneButton() {
 
-        // this.props.navigation.navigate("ShopScheduleScreen")
-
-        if (this.state.companyName == '' || this.state.plva == '' || this.state.owner == '' || this.state.city == '' || this.state.address == ''
-            || this.state.phone == ''){
+        if (this.state.companyName == '' || this.state.plva == '' || this.state.owner == '' || this.state.city == '' || this.state.address == ''){
                 Alert.alert(
                     'Oops!',
                     'Please enter all fields.',
@@ -96,8 +94,8 @@ export default class ShopInfo extends Component {
               )
             return
         }else{
-            this.setState({phone: this.phoneRef.getValue()});
-            alert(this.phoneRef.getValue());
+            this.setState({phone_prefix: this.phoneRef.getCountryCode()});
+            this.setState({phone: this.phoneRef.getValue().replace(this.phoneRef.getCountryCode(), '')});
         }
 
         let formData = new FormData();
@@ -106,12 +104,13 @@ export default class ShopInfo extends Component {
         formData.append('plva', this.state.plva);
         formData.append('owner', this.state.owner);
         formData.append('city', this.state.city);
+        formData.append('phone_prefix', this.state.phonePrefix);
         formData.append('phone', this.state.phone);
-        
+        formData.append('legalAddress', this.state.address);
 
         AppManager.getInstance.shopInfoFormData = formData;
         
-
+        this.props.navigation.navigate("ShopScheduleScreen")
     }
 
     render() {

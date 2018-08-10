@@ -7,6 +7,7 @@ export default class AppManager {
     addShopFormData = null;
     shopInfoFormData = null;
 
+    selectedShopInfo = null;
 
     /**
      * @returns {AppManager}

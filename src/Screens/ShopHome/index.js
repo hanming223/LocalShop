@@ -32,12 +32,12 @@ export default class ShopHome extends Component {
 
     async componentDidMount() {
 
-        const shopInfo = this.props.navigation.getParam('shopInfo');
+        // const shopInfo = this.props.navigation.getParam('shopInfo');
 
     }
 
     manageShops() {
-        this.props.navigation.navigate("AddShopScreen")
+        this.props.navigation.navigate("ShopViewScreen")
     }
 
     render() {

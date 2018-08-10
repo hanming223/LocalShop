@@ -52,6 +52,8 @@ rn_path = '../node_modules/react-native'
 
   # pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
 end
 
 

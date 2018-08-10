@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 
 import { vendor_getShopList } from "../../Components/Api";
+import AppManager from '../../Components/AppManager';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
 
@@ -62,7 +63,11 @@ export default class ShopList extends Component {
     }
 
     onPressItem(item) {
-        this.props.navigation.navigate("ShopHomeScreen",{shopInfo: item})
+        // this.props.navigation.navigate("ShopHomeScreen",{shopInfo: item})
+
+        AppManager.getInstance.selectedShopInfo = item
+        this.props.navigation.navigate("ShopHomeScreen");
+        
     }
 
     render() {
