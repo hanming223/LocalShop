@@ -36,7 +36,6 @@ export default class ShopList extends Component {
 
         this.setState({loading: false})
 
-        
         if (json.result == true){
             
             let shopList = json.message;

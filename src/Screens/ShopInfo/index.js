@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import PhoneInput from 'react-native-phone-input'
+
+
 import {
     View,
     TextInput,
@@ -22,16 +25,24 @@ import Styles from './styles';
 
 const deviceWidth = Dimensions.get("window").width;
 
+
 export default class ShopInfo extends Component {
     constructor(props) {
         super(props);
         this.state = ({
-            userType: 0
+            companyType: 'company',
+            companyName: '',
+            plva: '',
+            owner: '',
+            city: '',
+            address: '',
+            phone_prefix: '',
+            phone: ''
         })
 
         this.onCompanyOption = this.onCompanyOption.bind(this);
         this.onFreelancerOption = this.onFreelancerOption.bind(this);
-
+        this.onDoneButton = this.onDoneButton.bind(this);
     }
 
     async componentDidMount() {
@@ -50,15 +61,32 @@ export default class ShopInfo extends Component {
     }
 
     onCompanyOption() {
-
-        this.setState({userType: 0});
-
-
+        this.setState({companyType: 'company'});
     }
 
     onFreelancerOption() {
+        this.setState({companyType: 'private'});
+    }
 
-        this.setState({userType: 1});
+    onDoneButton() {
+
+        this.props.navigation.navigate("ShopScheduleScreen")
+
+        // if (this.phoneRef.isValidNumber() == false){
+        //     Alert.alert(
+        //         'Oops!',
+        //         'Invalid phone number.',
+        //         [
+        //           {text: 'OK', onPress: () => this.setState({loading: false})},
+        //         ],
+        //         { cancelable: false }
+        //       )
+        //     return
+        // }else{
+        //     alert(this.phoneRef.getValue());
+        // }
+
+        
 
     }
 
@@ -66,7 +94,7 @@ export default class ShopInfo extends Component {
 
         let company_icon, company_text, freelancer_icon, freelancer_text;
 
-        if (this.state.userType == 0){
+        if (this.state.companyType == 'company'){
             company_icon = <Image source={require('../../Assets/Images/shopinfo_option_selected.png')} style={{width: 25, height: 25}} />
             company_text = <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginLeft: 10}}>Company</Text>
 
@@ -105,9 +133,6 @@ export default class ShopInfo extends Component {
 
                     </View>
 
-
-                    {this.state.userType == 0 ? (
-
                     <View style={{width: '100%', flexDirection: 'column', alignItems: 'center'}}>
 
                         {/* Company Name,  Tax Code. Administrator/Owner */}
@@ -115,8 +140,7 @@ export default class ShopInfo extends Component {
                             <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="Company Name"
-                                onChangeText={(text) => this.setState({password: text})}
-                                value={this.state.password}
+                                onChangeText={(text) => this.setState({companyName: text})}
                             />
                         </View>
 
@@ -124,8 +148,7 @@ export default class ShopInfo extends Component {
                             <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="Tax Code"
-                                onChangeText={(text) => this.setState({password: text})}
-                                value={this.state.password}
+                                onChangeText={(text) => this.setState({plva: text})}
                             />
                         </View>
 
@@ -133,8 +156,7 @@ export default class ShopInfo extends Component {
                             <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="Administrator/Owner"
-                                onChangeText={(text) => this.setState({password: text})}
-                                value={this.state.password}
+                                onChangeText={(text) => this.setState({owner: text})}
                             />
                         </View>
 
@@ -150,8 +172,7 @@ export default class ShopInfo extends Component {
                             <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="City"
-                                onChangeText={(text) => this.setState({password: text})}
-                                value={this.state.password}
+                                onChangeText={(text) => this.setState({city: text})}
                             />
                         </View>
 
@@ -159,8 +180,7 @@ export default class ShopInfo extends Component {
                             <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="Address"
-                                onChangeText={(text) => this.setState({password: text})}
-                                value={this.state.password}
+                                onChangeText={(text) => this.setState({address: text})}
                             />
                         </View>
 
@@ -173,25 +193,29 @@ export default class ShopInfo extends Component {
                         {/* Phone contact */}
 
                         <View style={Styles.TextInputContainer}>
-                            <TextInput
+
+                            {/* <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="Phone Number"
-                                onChangeText={(text) => this.setState({password: text})}
                                 value={this.state.password}
+                            /> */}
+
+                            <PhoneInput style={Styles.TextInputStyle}
+                                ref={ref => {
+                                    if (ref != null){
+                                        this.phoneRef = ref;
+                                    }
+                                }}
                             />
+
                         </View>
 
                         <TouchableOpacity style={{width: '90%', height: 45, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41', marginTop: 20}}
-                            onPress={this.onSigninButton}>
-                            <Text style={Styles.signInStyle}>Done</Text>
+                            onPress={this.onDoneButton}>
+                            <Text style={Styles.signInStyle}>Next</Text>
                         </TouchableOpacity>
 
                     </View>
-                    ):(
-                    <View>
-                          <Text>  Freelancer Fields </Text>
-                    </View>
-                    )}
                 
             </View>
             </KeyboardAwareScrollView>

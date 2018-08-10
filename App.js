@@ -48,7 +48,8 @@ export default class App extends Component {
     }else if (this.state.isLoggedIn == true){
       
       return (
-        <PrimaryNav />
+        <StartNav />
+        // <PrimaryNav />
       );
     }else{
       return (

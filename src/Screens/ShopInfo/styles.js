@@ -22,7 +22,8 @@ export default {
         marginTop: 10,
         shadowColor: 'gray',
         shadowRadius: 5,
-        shadowOpacity: 0.3
+        shadowOpacity: 0.3,
+        flexDirection: 'row'
     },
 
     TextInputStyle: {

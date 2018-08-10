@@ -46,7 +46,11 @@ rn_path = '../node_modules/react-native'
   pod 'GoogleMaps'  # Remove this line if you don't want to support GoogleMaps on iOS
   pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
 
+  
+  pod 'Picker', :path => '../node_modules/react-native-picker'
 
+
+  # pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 end
 

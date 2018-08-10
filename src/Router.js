@@ -8,6 +8,9 @@ import Login from "./Screens/Login";
 import ShopHome from "./Screens/ShopHome";
 import AddShop from "./Screens/AddShop";
 import ShopInfo from "./Screens/ShopInfo";
+import ShopSchedule from "./Screens/ShopSchedule";
+
+console.disableYellowBox = true;
 
 export const PrimaryNav = StackNavigator({
     ShopListScreen: { 
@@ -42,6 +45,16 @@ export const PrimaryNav = StackNavigator({
         screen: ShopInfo,
         navigationOptions: ({ navigation }) => ({
             headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Shop Information</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerRight: <MenuIcon {...navigation} />,
+            headerTintColor: 'white'
+        }), 
+    },
+
+    ShopScheduleScreen: { 
+        screen: ShopSchedule,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Shop Schedule</Text>  ,
             headerStyle: { backgroundColor: '#EC6A41' },
             headerRight: <MenuIcon {...navigation} />,
             headerTintColor: 'white'
