@@ -70,22 +70,46 @@ export default class ShopInfo extends Component {
 
     onDoneButton() {
 
-        this.props.navigation.navigate("ShopScheduleScreen")
+        // this.props.navigation.navigate("ShopScheduleScreen")
 
-        // if (this.phoneRef.isValidNumber() == false){
-        //     Alert.alert(
-        //         'Oops!',
-        //         'Invalid phone number.',
-        //         [
-        //           {text: 'OK', onPress: () => this.setState({loading: false})},
-        //         ],
-        //         { cancelable: false }
-        //       )
-        //     return
-        // }else{
-        //     alert(this.phoneRef.getValue());
-        // }
+        if (this.state.companyName == '' || this.state.plva == '' || this.state.owner == '' || this.state.city == '' || this.state.address == ''
+            || this.state.phone == ''){
+                Alert.alert(
+                    'Oops!',
+                    'Please enter all fields.',
+                    [
+                      {text: 'OK', onPress: () => this.setState({loading: false})},
+                    ],
+                    { cancelable: false }
+                  )
+                return;
+            }
 
+        if (this.phoneRef.isValidNumber() == false){
+            Alert.alert(
+                'Oops!',
+                'Invalid phone number.',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+              )
+            return
+        }else{
+            this.setState({phone: this.phoneRef.getValue()});
+            alert(this.phoneRef.getValue());
+        }
+
+        let formData = new FormData();
+        formData.append('companyType', this.state.companyType);
+        formData.append('companyName', this.state.companyName);
+        formData.append('plva', this.state.plva);
+        formData.append('owner', this.state.owner);
+        formData.append('city', this.state.city);
+        formData.append('phone', this.state.phone);
+        
+
+        AppManager.getInstance.shopInfoFormData = formData;
         
 
     }

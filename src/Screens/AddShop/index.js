@@ -5,7 +5,7 @@ import Picker from 'react-native-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import {
-    Platform,
+    Alert,
     StyleSheet,
     Image,
     ImageBackground,
@@ -20,6 +20,7 @@ import {
 
 import { vendor_addshop } from "../../Components/Api";
 import Styles from './styles';
+import AppManager from '../../Components/AppManager';
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -64,12 +65,24 @@ export default class AddShop extends Component {
 
     onNextButton() {
 
-        // let formData = new FormData();
-        // formData.append('shopName', this.state.name);
-        // formData.append('shopAdd', this.state.address);
-        // formData.append('shopCat', "3");
+        if (this.state.name == '' || this.state.address == '' || this.state.category == ''){
+            Alert.alert(
+                'Oops!',
+                'Please enter all fields.',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+              )
+            return;
+        }
 
+        let formData = new FormData();
+        formData.append('shopName', this.state.name);
+        formData.append('shopAdd', this.state.address);
+        formData.append('shopCat', "3");
 
+        AppManager.getInstance.addShopFormData = formData;
 
         this.props.navigation.navigate("ShopInfoScreen")
     }

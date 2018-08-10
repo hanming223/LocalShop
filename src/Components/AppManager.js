@@ -4,6 +4,9 @@ export default class AppManager {
 
     _userID = "";
 
+    addShopFormData = null;
+    shopInfoFormData = null;
+
 
     /**
      * @returns {AppManager}
