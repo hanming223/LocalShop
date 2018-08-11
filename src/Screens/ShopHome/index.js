@@ -28,6 +28,7 @@ export default class ShopHome extends Component {
         })
 
         this.manageShops = this.manageShops.bind(this);
+        this.manageProducts = this.manageProducts.bind(this);
     }
 
     async componentDidMount() {
@@ -38,6 +39,10 @@ export default class ShopHome extends Component {
 
     manageShops() {
         this.props.navigation.navigate("ShopViewScreen")
+    }
+
+    manageProducts() {
+        this.props.navigation.navigate("ProductManage")
     }
 
     render() {
@@ -54,7 +59,7 @@ export default class ShopHome extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{width: deviceWidth * 0.9, aspectRatio: 2.2, marginTop: 20}}
-                    onPress={this.onSigninButton}>
+                    onPress={this.manageProducts}>
                     <ImageBackground source={require('../../Assets/Images/shop_home_product_bg.png')}
                                 style={{width: '100%', height: '100%', alignItems: 'center'}} >
                         <Text style={{fontSize: 24, fontWeight: 'bold', color: 'white', marginTop: 70}}>MANAGE PRODUCTS</Text>

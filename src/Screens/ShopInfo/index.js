@@ -72,16 +72,16 @@ export default class ShopInfo extends Component {
     onDoneButton() {
 
         if (this.state.companyName == '' || this.state.plva == '' || this.state.owner == '' || this.state.city == '' || this.state.address == ''){
-                Alert.alert(
-                    'Oops!',
-                    'Please enter all fields.',
-                    [
-                      {text: 'OK', onPress: () => this.setState({loading: false})},
-                    ],
-                    { cancelable: false }
-                  )
-                return;
-            }
+            Alert.alert(
+                'Oops!',
+                'Please enter all fields.',
+                [
+                    {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+                )
+            return;
+        }
 
         if (this.phoneRef.isValidNumber() == false){
             Alert.alert(
@@ -94,6 +94,9 @@ export default class ShopInfo extends Component {
               )
             return
         }else{
+            console.log('xxx', this.phoneRef.getCountryCode());
+            console.log('xxx', this.phoneRef.getValue());
+
             this.setState({phone_prefix: this.phoneRef.getCountryCode()});
             this.setState({phone: this.phoneRef.getValue().replace(this.phoneRef.getCountryCode(), '')});
         }

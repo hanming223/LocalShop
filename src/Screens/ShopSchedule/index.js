@@ -149,6 +149,7 @@ export default class ShopSchedule extends Component {
         let shopId;
         if (json.result == true){
             shopId = json.message;
+            this.addShopInformation(shopId);
         }else{
             Alert.alert(
                 'Oops!',
@@ -160,11 +161,21 @@ export default class ShopSchedule extends Component {
               )
         }
 
+        
+
+    }
+
+    async addShopInformation(shopId){
+
         //add shop information
 
         AppManager.getInstance.shopInfoFormData.append('manageShop', shopId);
 
+        console.log('xxx', AppManager.getInstance.shopInfoFormData);
+
         json = await vendor_sendshop(AppManager.getInstance.shopInfoFormData);
+
+        console.log('xxx', json);
 
         if (json.result == true){
             Alert.alert(
@@ -178,17 +189,13 @@ export default class ShopSchedule extends Component {
         }else{
             Alert.alert(
                 'Oops!',
-                'result.message',
+                json.message,
                 [
                   {text: 'OK', onPress: () => this.setState({loading: false})},
                 ],
                 { cancelable: false }
               )
         }
-
-        
-
-        
 
     }
 

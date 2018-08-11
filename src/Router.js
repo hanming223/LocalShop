@@ -10,6 +10,7 @@ import AddShop from "./Screens/AddShop";
 import ShopInfo from "./Screens/ShopInfo";
 import ShopSchedule from "./Screens/ShopSchedule";
 import ShopView from "./Screens/ShopView";
+import ProductManage from "./Screens/ProductManage";
 import AppManager from './Components/AppManager';
 
 // console.disableYellowBox = true;
@@ -65,6 +66,16 @@ export const PrimaryNav = StackNavigator({
 
     ShopViewScreen: { 
         screen: ShopView,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{AppManager.getInstance.selectedShopInfo.name}</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerRight: <MenuIcon {...navigation} />,
+            headerTintColor: 'white'
+        }), 
+    },
+
+    ProductManageScreen: { 
+        screen: ProductManage,
         navigationOptions: ({ navigation }) => ({
             headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{AppManager.getInstance.selectedShopInfo.name}</Text>  ,
             headerStyle: { backgroundColor: '#EC6A41' },
