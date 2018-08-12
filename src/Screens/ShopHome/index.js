@@ -42,7 +42,7 @@ export default class ShopHome extends Component {
     }
 
     manageProducts() {
-        this.props.navigation.navigate("ProductManage")
+        this.props.navigation.navigate("ProductManageScreen")
     }
 
     render() {

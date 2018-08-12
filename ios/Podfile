@@ -54,6 +54,8 @@ rn_path = '../node_modules/react-native'
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+  pod 'ReactNativeSearchBar', :path => '../node_modules/react-native-search-bar'
+
 end
 
 

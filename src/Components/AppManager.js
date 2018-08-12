@@ -9,6 +9,8 @@ export default class AppManager {
 
     selectedShopInfo = null;
 
+    shopInfoScreenKey = '';
+
     /**
      * @returns {AppManager}
      */

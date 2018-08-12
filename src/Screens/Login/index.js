@@ -77,7 +77,8 @@ export default class Login extends Component {
                 this.setState({loading: false})
                 
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
-                await AsyncStorage.setItem("token", json.message)
+                await AsyncStorage.setItem("token", json.message.token)
+                await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
                 this.props.navigation.navigate("PrimaryNav")
                 
             }else{
@@ -106,7 +107,8 @@ export default class Login extends Component {
                 this.setState({loading: false})
                 
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
-                await AsyncStorage.setItem("token", json.message)
+                await AsyncStorage.setItem("token", json.message.token)
+                await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
                 this.props.navigation.navigate("PrimaryNav")
                 
             }else{

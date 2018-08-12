@@ -70,7 +70,7 @@ export default class ShopInfo extends Component {
     }
 
     onDoneButton() {
-
+        
         if (this.state.companyName == '' || this.state.plva == '' || this.state.owner == '' || this.state.city == '' || this.state.address == ''){
             Alert.alert(
                 'Oops!',
@@ -83,6 +83,8 @@ export default class ShopInfo extends Component {
             return;
         }
 
+        let phonePrefix, phone;
+
         if (this.phoneRef.isValidNumber() == false){
             Alert.alert(
                 'Oops!',
@@ -94,21 +96,28 @@ export default class ShopInfo extends Component {
               )
             return
         }else{
-            console.log('xxx', this.phoneRef.getCountryCode());
-            console.log('xxx', this.phoneRef.getValue());
+            
+            phonePrefix = this.phoneRef.getCountryCode();
+            phone = this.phoneRef.getValue().replace('+' + this.phoneRef.getCountryCode(), '');
 
-            this.setState({phone_prefix: this.phoneRef.getCountryCode()});
-            this.setState({phone: this.phoneRef.getValue().replace(this.phoneRef.getCountryCode(), '')});
+            // console.log('countrycode', phonePrefix);
+            // console.log('phonecode', phone);
+
+            // this.setState({phonePrefix: phonePrefix});
+            // this.setState({phone: phone});
         }
+
+        // console.log('statecountrycode', this.state.phone);
+        // console.log('statecountrycode', this.state.phonePrefix);
 
         let formData = new FormData();
         formData.append('companyType', this.state.companyType);
         formData.append('companyName', this.state.companyName);
-        formData.append('plva', this.state.plva);
+        formData.append('pIva', this.state.plva);
         formData.append('owner', this.state.owner);
         formData.append('city', this.state.city);
-        formData.append('phone_prefix', this.state.phonePrefix);
-        formData.append('phone', this.state.phone);
+        formData.append('phone_prefix', phonePrefix);
+        formData.append('phone', phone);
         formData.append('legalAddress', this.state.address);
 
         AppManager.getInstance.shopInfoFormData = formData;

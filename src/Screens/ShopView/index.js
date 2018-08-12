@@ -18,11 +18,11 @@ import {
 
 import ImagePicker from 'react-native-image-picker';
 
-import { vendor_getShopList, vendor_login, vendor_signup } from "../../Components/Api";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Styles from './styles';
 import AppManager from '../../Components/AppManager';
+import {vendor_upload_image, vendor_update_shopinfo, vendor_add_image_relationship, vendor_update_shop_preview} from '../../Components/Api';
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -31,6 +31,7 @@ export default class ShopView extends Component {
         super(props);
         this.state = ({
             image: null,
+            imageData: '',
             story: ''
         })
 
@@ -74,6 +75,8 @@ export default class ShopView extends Component {
                 
                     // You can also display the image using data:
                     // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                this.setState({imageData: 'data:image/jpeg;base64,' + response.data});
             
                 this.setState({image: source});
             }
@@ -81,9 +84,79 @@ export default class ShopView extends Component {
 
     }
 
-    onSaveButton() {
+    async onSaveButton() {
 
+        this.setState({loading: true});
 
+        if (this.state.imageData != ''){
+            
+            let formData = new FormData();
+            formData.append('format', 2);
+            formData.append('image', this.state.imageData);
+
+            let response = await vendor_upload_image(formData);
+            // console.log('xxxxxx', response);
+            if (response.result == true){
+
+                formData = new FormData();
+                formData.append('type', 2);
+                formData.append('image', response.image);
+                formData.append('target', AppManager.getInstance.selectedShopInfo.id);
+                
+                response = await vendor_add_image_relationship(formData);
+         
+                if (response.result == true){
+                    
+                    formData = new FormData();
+                    formData.append('shopMedia', response.message);
+                    formData.append('manageShop', AppManager.getInstance.selectedShopInfo.id);
+
+                    let json = await vendor_update_shop_preview(formData);
+                    // console.log('xxxxxx', json);
+                    if (json.result == true){
+                        // alert('success');
+                    }
+
+                }
+
+            }
+
+        }
+
+        this.updateStory();
+        
+    }
+
+    async updateStory(){
+
+        let formData = new FormData();
+        formData.append('shopStory', this.state.story);
+        formData.append('manageShop', AppManager.getInstance.selectedShopInfo.id);
+
+        let response = await vendor_update_shopinfo(formData);
+
+        if (response.result == true){
+            Alert.alert(
+                'Success!',
+                'Shop info updated successfully.',
+                [
+                  {text: 'OK', onPress: () => {
+                      this.setState({loading: false});
+                      this.props.navigation.goBack();
+                    }},
+                ],
+                { cancelable: false }
+            )
+        }else{
+            Alert.alert(
+                'Oops!',
+                'Something went wrong.',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+            )
+        }
 
     }
 
@@ -92,6 +165,7 @@ export default class ShopView extends Component {
         return (
 
             <SafeAreaView style={Styles.safeArea}>
+                <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
                 <KeyboardAwareScrollView style={{flex: 1, width: '100%', height: '100%'}}>
                     <View style={{flex: 1, width: '100%', height: '100%', alignItems: 'center'}}>
                         <TouchableOpacity style={{width: '40%', resizeMode: 'contain', aspectRatio: 1,

@@ -153,15 +153,13 @@ export default class ShopSchedule extends Component {
         }else{
             Alert.alert(
                 'Oops!',
-                'Something went wrong!.',
+                'Something went wrong!',
                 [
                   {text: 'OK', onPress: () => this.setState({loading: false})},
                 ],
                 { cancelable: false }
               )
         }
-
-        
 
     }
 
@@ -171,30 +169,32 @@ export default class ShopSchedule extends Component {
 
         AppManager.getInstance.shopInfoFormData.append('manageShop', shopId);
 
-        console.log('xxx', AppManager.getInstance.shopInfoFormData);
+        console.log('shopInfoFormData', AppManager.getInstance.shopInfoFormData);
 
-        json = await vendor_sendshop(AppManager.getInstance.shopInfoFormData);
+        let response = await vendor_sendshop(AppManager.getInstance.shopInfoFormData);
+        console.log('xxx', response);
 
-        console.log('xxx', json);
-
-        if (json.result == true){
+        if (response.result == true){
             Alert.alert(
                 'Success!',
                 'Shop added successfully.',
                 [
-                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                  {text: 'OK', onPress: () => {
+                        this.setState({loading: false});
+                        this.props.navigation.goBack(AppManager.getInstance.shopInfoScreenKey);
+                    }},
                 ],
                 { cancelable: false }
               )
         }else{
             Alert.alert(
                 'Oops!',
-                json.message,
+                'Something went wrong',
                 [
                   {text: 'OK', onPress: () => this.setState({loading: false})},
                 ],
                 { cancelable: false }
-              )
+            )
         }
 
     }
@@ -236,6 +236,7 @@ export default class ShopSchedule extends Component {
                                         }
                                     }}
                                     disabled={!prop.isMorningOn}
+                                    hideText={!prop.isMorningOn}
                                     onDateChange={(date) => {this.dateChanged(0, 0, date, key)}}
                                 />
 
@@ -257,6 +258,7 @@ export default class ShopSchedule extends Component {
                                         }
                                     }}
                                     disabled={!prop.isMorningOn}
+                                    hideText={!prop.isMorningOn}
                                     onDateChange={(date) => {this.dateChanged(0, 1, date, key)}}
                                 />
 
@@ -288,6 +290,7 @@ export default class ShopSchedule extends Component {
                                         }
                                     }}
                                     disabled={!prop.isAfternoonOn}
+                                    hideText={!prop.isAfternoonOn}
                                     onDateChange={(date) => {this.dateChanged(1, 0, date, key)}}
                                 />
 
@@ -309,6 +312,7 @@ export default class ShopSchedule extends Component {
                                         }
                                     }}
                                     disabled={!prop.isAfternoonOn}
+                                    hideText={!prop.isAfternoonOn}
                                     onDateChange={(date) => {this.dateChanged(1, 1, date, key)}}
                                 />
 

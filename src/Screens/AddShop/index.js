@@ -18,7 +18,7 @@ import {
     TextInput
 } from 'react-native';
 
-import { vendor_addshop } from "../../Components/Api";
+import { vendor_addshop, vendor_get_mother_category } from "../../Components/Api";
 import Styles from './styles';
 import AppManager from '../../Components/AppManager';
 
@@ -31,8 +31,10 @@ export default class AddShop extends Component {
         this.state = ({
             name: "",
             address: "",
-            category: "",
-            loading: false
+            categoryId: "",
+            categoryData: [],
+            categoryArray: [],
+            loading: true
         })
 
         this.onNextButton = this.onNextButton.bind(this);
@@ -41,17 +43,56 @@ export default class AddShop extends Component {
 
     async componentDidMount() {
 
+        let response = await vendor_get_mother_category()
+        this.setState({loading: false});
+        
+        let temp1 = []
+        let temp2 = []
+        if (response.result == true){
+
+            for (let i = 0; i < response.message.length; i++){
+
+                temp1.push(response.message[i].name);
+                temp2.push(response.message[i]);
+
+            }
+
+            this.setState({categoryData: temp1, categoryArray: temp2});
+            
+        }else{
+
+            this.props.navigation.goBack();
+
+        }
+
+        AppManager.getInstance.shopInfoScreenKey = this.props.navigation.state.key;
+    }
+
+    categoryPicked(pickedValue){
+
+        this.setState({category: String(pickedValue)})
+
+        for (let i = 0; i < this.state.categoryArray.length; i++){
+
+            if (this.state.categoryArray[i].name == pickedValue){
+                this.setState({categoryId: this.state.categoryArray[i].id});
+                continue;
+            }
+
+        }
+
     }
 
     showAreaPicker() {
         Picker.init({
-            pickerData: ['Category 1', 'Category 2', 'Category 3'],
+            pickerData: this.state.categoryData,
             pickerTitleText: "Please Select Category",
             pickerConfirmBtnText: "Confirm",
             pickerCancelBtnText: "Cancel",
+            pickerRowHeight: 32,
             onPickerConfirm: pickedValue => {
                 console.log('category', pickedValue);
-                this.setState({category: String(pickedValue)})
+                this.categoryPicked(pickedValue);
             },
             onPickerCancel: pickedValue => {
                 console.log('category', pickedValue);
@@ -80,7 +121,9 @@ export default class AddShop extends Component {
         let formData = new FormData();
         formData.append('shopName', this.state.name);
         formData.append('shopAdd', this.state.address);
-        formData.append('shopCat', "3");
+        formData.append('shopCat', this.state.categoryId);
+
+        alert(this.state.categoryId);
 
         AppManager.getInstance.addShopFormData = formData;
 
