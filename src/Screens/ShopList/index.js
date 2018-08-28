@@ -15,6 +15,7 @@ import {
     RefreshControl
 } from 'react-native';
 
+import { EventRegister } from 'react-native-event-listeners'
 import { vendor_getShopList } from "../../Components/Api";
 import AppManager from '../../Components/AppManager';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -25,7 +26,7 @@ export default class ShopList extends Component {
     constructor(props) {
         super(props);
         this.state = ({
-            loading: true,
+            loading: false,
             shopArray: [],
             refreshing: false
         })
@@ -39,6 +40,10 @@ export default class ShopList extends Component {
     async componentDidMount() {
 
         this.fetchShopList();
+
+        EventRegister.addEventListener('refreshShopList', (data) => {
+            this.fetchShopList();
+        })
 
     }
 
@@ -54,7 +59,7 @@ export default class ShopList extends Component {
             
             let shopList = json.message;
             
-            let temp = this.state.shopArray;
+            let temp = [];
             
             for (i = 0; i < shopList.length; i++){
 
@@ -62,7 +67,7 @@ export default class ShopList extends Component {
                 temp.push(shop);
                 
             }
-      
+
             this.setState({shopArray: temp});
 
         }
@@ -76,7 +81,7 @@ export default class ShopList extends Component {
         let json = await vendor_getShopList()
 
         this.setState({refreshing: false});
-
+        console.log('resultt', json);
         if (json.result == true){
             
             let shopList = json.message;
@@ -101,8 +106,7 @@ export default class ShopList extends Component {
     }
 
     onPressItem(item) {
-        // this.props.navigation.navigate("ShopHomeScreen",{shopInfo: item})
-
+        
         AppManager.getInstance.selectedShopInfo = item
         this.props.navigation.navigate("ShopHomeScreen");
         
@@ -113,13 +117,14 @@ export default class ShopList extends Component {
         return (
 
             <View style={{flexDirection: 'row', backgroundColor: 'white', flex: 1}}>
-            <SafeAreaView style={Styles.safeArea}>
+   
                 <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
 
                 <FlatList
                     refreshControl={
                         <RefreshControl
                         refreshing={this.state.refreshing}
+                        title="Refreshing..."
                         onRefresh={this.refreshShopList}
                         />
                     }
@@ -127,34 +132,47 @@ export default class ShopList extends Component {
                     style={{flex: 1, width: '100%', height: '100%', marginBottom: 32}}
                     data={this.state.shopArray}
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({item, separators}) => {
+                    renderItem={({item, separators}) => {    
                         let imageLocation = "http://ls.antonioantek.com/images/" + item.preview + ".jpg"
                         return <TouchableHighlight
-                        onPress={() => this.onPressItem(item)}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}
-                        style={{backgroundColor: 'red', height: 80, width: '100%'}}>
-                            <View style={{backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', height: '100%'}}>
-                                <Image source={{uri: imageLocation}}
-                                        style={{width: 60, height: 60, resizeMode: 'cover', borderRadius: 30, borderWidth: 0.3, borderColor: 'gray', marginLeft: 20}} />
-                                <Text style={{fontSize: 16, fontWeight: '600', color: 'black', marginLeft: 20}}>{item.name}</Text>
-                                <Image source={require('../../Assets/Images/shoplist_arrow_icon.png')}
-                                        style={{width: 13, height: 18, resizeMode: 'contain', position: 'absolute', right: 20}} />
-                            </View>
-                        </TouchableHighlight>
+                                    onPress={() => this.onPressItem(item)}
+                                    onShowUnderlay={separators.highlight}
+                                    onHideUnderlay={separators.unhighlight}
+                                    style={{backgroundColor: 'red', height: 80, width: '100%'}}>
+                                        <View style={{backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', height: '100%'}}>
+                                            <View style={{width: 60, height: 60, borderRadius: 30, borderWidth: 0.3, borderColor: 'gray', marginLeft: 20}}>
+                                                {item.preview != null ? (
+                                                    <Image source={{uri: imageLocation}}
+                                                        style={{width: '100%', height: '100%', resizeMode: 'cover', borderRadius: 30}} />
+                                                ):(
+                                                    <Image style={{width: '100%', height: '100%', resizeMode: 'cover', borderRadius: 30}} />
+                                                )}                           
+                                            </View>
+                                            <Text style={{fontSize: 16, fontWeight: '600', color: 'black', marginLeft: 20}}>{item.name}</Text>
+                                            <Image source={require('../../Assets/Images/shoplist_arrow_icon.png')}
+                                                    style={{width: 13, height: 18, resizeMode: 'contain', position: 'absolute', right: 20}} />
+                                        </View>
+                                </TouchableHighlight>
                     }}
                 />
 
-                <ImageBackground source={require('../../Assets/Images/shoplist_bottom_bg.png')}
+                {/* <ImageBackground source={require('../../Assets/Images/shoplist_bottom_bg.png')}
                                     style={{position: 'absolute', bottom: 0, width: '100%', height: 130, alignItems: 'center'}}>
                     <TouchableOpacity style={{width: 45, height: 45, alignItems: 'center', justifyContent: 'center', marginTop: 35}}
                         onPress={this.onAddButton}>
                         <Image source={require('../../Assets/Images/shoplist_plus_button.png')}
                                style={{width: 60, height: 60}} />
                     </TouchableOpacity>
-                </ImageBackground>
+                </ImageBackground> */}
 
-            </SafeAreaView>
+
+                <TouchableOpacity style={{position: 'absolute', bottom: 20, width: 70, height: 70, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', right: 20,
+                                    borderRadius: 35, borderColor: 'gray', borderWidth: 0.3, shadowColor: 'gray', shadowOpacity: 0.2, shadowRadius: 5}}
+                    onPress={this.onAddButton}>
+                    <Image source={require('../../Assets/Images/shoplist_plus_button.png')}
+                            style={{width: 60, height: 60}} />
+                </TouchableOpacity>
+    
             </View>
 
         );

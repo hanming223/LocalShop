@@ -51,7 +51,9 @@ export default class ShopView extends Component {
         
         var options = {
             title: 'Select Thumbnail',
-            allowsEditing: false,
+            allowsEditing: true,
+            mediaType: 'photo',
+            quality: 0.5,
             storageOptions: {
               skipBackup: true,
               path: 'images'
@@ -73,8 +75,8 @@ export default class ShopView extends Component {
             else {
                 let source = { uri: response.uri };
                 
-                    // You can also display the image using data:
-                    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({imageData: 'data:image/jpeg;base64,' + response.data});
             
@@ -193,11 +195,11 @@ export default class ShopView extends Component {
                     </View>
                 </KeyboardAwareScrollView>
 
-                <TouchableOpacity style={{width: '90%', height: 45, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41',
+                <TouchableOpacity style={{width: '90%', height: 45, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41', marginBottom: 10
                         }}
-                        onPress={this.onSaveButton}>
-                        <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Save</Text>
-                    </TouchableOpacity>
+                    onPress={this.onSaveButton}>
+                    <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>Save</Text>
+                </TouchableOpacity>
 
             </SafeAreaView>
  

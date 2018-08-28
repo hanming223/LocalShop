@@ -21,6 +21,7 @@ import CheckBox from 'react-native-check-box'
 import DatePicker from 'react-native-datepicker'
 import DayScheduleModel from '../../Components/DayScheduleModel'
 import Spinner from 'react-native-loading-spinner-overlay';
+import { EventRegister } from 'react-native-event-listeners'
 
 import { vendor_addshop, vendor_sendshop } from "../../Components/Api";
 import AppManager from '../../Components/AppManager';
@@ -197,6 +198,10 @@ export default class ShopSchedule extends Component {
             )
         }
 
+    }
+
+    componentWillUnmount() {
+        EventRegister.emit('refreshShopList', 'it works!!!')
     }
 
     render() {

@@ -1330,6 +1330,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.LocalShop;
 				PRODUCT_NAME = LocalShop;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1349,6 +1350,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.LocalShop;
 				PRODUCT_NAME = LocalShop;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

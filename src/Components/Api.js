@@ -16,6 +16,15 @@ const API_VENDOR_REFRESH_TOKEN = API_ROOT + "refreshToken"
 const API_VENDOR_IMAGE_RELATIONSHIP = API_ROOT + "addImageRelationship"
 const API_VENDOR_UPDATE_SHOP_PREVIEW = API_ROOT + "updateShopPreview"
 const API_VENDOR_GET_MOTHER_CATEGORY = "http://ls.antonioantek.com/api/localShop/getMCategories"
+const API_VENDOR_GET_SUB_CATEGORY = "http://ls.antonioantek.com/api/localShop/getSubCategories"
+const API_VENDOR_GET_SHOP_CATS = "http://ls.antonioantek.com/api/localShop/getShopCats"
+const API_VENDOR_GET_BRANDS = "http://ls.antonioantek.com/api/localShop/getBrands"
+const API_VENDOR_GET_SIMILAR_PRODUCTS = API_ROOT + "similarProducts"
+const API_VENDOR_GET_PRODUCTS = API_ROOT + "getProducts"
+const API_VENDOR_UPLOAD_MULTIPLE_IMAGES = API_ROOT + "addImages"
+const API_VENDOR_GET_PRODUCT_VARIANTS = API_ROOT + "getProductVariants"
+
+
 
 export async function vendor_getShopList() {
     return await getJSONWithToken(API_VENDOR_SHOP_LIST)
@@ -53,8 +62,36 @@ export async function vendor_get_mother_category() {
     return await postJSON(API_VENDOR_GET_MOTHER_CATEGORY)
 }
 
+export async function vendor_get_shop_category(json) {
+    return await postJSON(API_VENDOR_GET_SHOP_CATS, json)
+}
+
 export async function vendor_update_shop_preview(json) {
     return await postJSONWithToken(API_VENDOR_UPDATE_SHOP_PREVIEW, json)
+}
+
+export async function vendor_get_similar_products(json) {
+    return await postJSONWithToken(API_VENDOR_GET_SIMILAR_PRODUCTS, json)
+}
+
+export async function vendor_get_products(json) {
+    return await postJSONWithToken(API_VENDOR_GET_PRODUCTS, json)
+}
+
+export async function vendor_get_brands() {
+    return await postJSONWithToken(API_VENDOR_GET_BRANDS)
+}
+
+export async function vendor_get_sub_catgegory() {
+    return await postJSONWithToken(API_VENDOR_GET_SUB_CATEGORY)
+}
+
+export async function vendor_upload_multiple_images(json) {
+    return await postJSONWithToken(API_VENDOR_UPLOAD_MULTIPLE_IMAGES, json)
+}
+
+export async function vendor_get_product_variants(json) {
+    return await postJSONWithToken(API_VENDOR_GET_PRODUCT_VARIANTS, json)
 }
 
 export async function getJSON(url){
@@ -127,8 +164,6 @@ export async function refreshToken() {
     formData.append('refreshToken', refreshToken);
     
     let response = await postJSON(API_VENDOR_REFRESH_TOKEN, formData);
-
-    console.log('rresponse', response);
 
     if (response.result == true){
         await AsyncStorage.setItem("token", response.message.token)

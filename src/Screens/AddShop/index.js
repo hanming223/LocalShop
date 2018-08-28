@@ -4,6 +4,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Picker from 'react-native-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+
+import { EventRegister } from 'react-native-event-listeners'
+
+
 import {
     Alert,
     StyleSheet,
@@ -15,12 +19,14 @@ import {
     Text,
     View,
     Dimensions, 
-    TextInput
+    TextInput,
+    Keyboard
 } from 'react-native';
 
 import { vendor_addshop, vendor_get_mother_category } from "../../Components/Api";
 import Styles from './styles';
 import AppManager from '../../Components/AppManager';
+import AddressCompleteModal from '../../Screens/AddressCompleteModal';
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -34,11 +40,13 @@ export default class AddShop extends Component {
             categoryId: "",
             categoryData: [],
             categoryArray: [],
-            loading: true
+            loading: true,
+            isModalVisible: false
         })
 
         this.onNextButton = this.onNextButton.bind(this);
         this.showAreaPicker = this.showAreaPicker.bind(this);
+        this.showModal = this.showModal.bind(this);
     }
 
     async componentDidMount() {
@@ -68,18 +76,10 @@ export default class AddShop extends Component {
         AppManager.getInstance.shopInfoScreenKey = this.props.navigation.state.key;
     }
 
-    categoryPicked(pickedValue){
+    categoryPicked(pickedValue, pickedIndex){
 
         this.setState({category: String(pickedValue)})
-
-        for (let i = 0; i < this.state.categoryArray.length; i++){
-
-            if (this.state.categoryArray[i].name == pickedValue){
-                this.setState({categoryId: this.state.categoryArray[i].id});
-                continue;
-            }
-
-        }
+        this.setState({categoryId: this.state.categoryArray[pickedIndex].id});
 
     }
 
@@ -90,14 +90,13 @@ export default class AddShop extends Component {
             pickerConfirmBtnText: "Confirm",
             pickerCancelBtnText: "Cancel",
             pickerRowHeight: 32,
-            onPickerConfirm: pickedValue => {
-                console.log('category', pickedValue);
-                this.categoryPicked(pickedValue);
+            onPickerConfirm: (pickedValue, pickedIndex) => {
+                this.categoryPicked(pickedValue, pickedIndex);
             },
-            onPickerCancel: pickedValue => {
+            onPickerCancel: (pickedValue, pickedIndex) => {
                 console.log('category', pickedValue);
             },
-            onPickerSelect: pickedValue => {
+            onPickerSelect: (pickedValue, pickedIndex) => {
                 console.log('category', pickedValue);
             }
         });
@@ -122,12 +121,23 @@ export default class AddShop extends Component {
         formData.append('shopName', this.state.name);
         formData.append('shopAdd', this.state.address);
         formData.append('shopCat', this.state.categoryId);
-
-        alert(this.state.categoryId);
+        formData.append('lat', this.state.lat);
+        formData.append('lng', this.state.lng);
 
         AppManager.getInstance.addShopFormData = formData;
 
         this.props.navigation.navigate("ShopInfoScreen")
+    }
+
+    showModal(){
+
+        this.input_address.blur()
+        this.setState({isModalVisible: true});
+
+    }
+
+    componentWillUnmount() {
+        EventRegister.emit('refreshShopList', 'it works!!!')
     }
 
     render() {
@@ -154,11 +164,17 @@ export default class AddShop extends Component {
                     <View style={Styles.TextInputContainer}>
                         <Image resizeMode='stretch'  source={require('../../Assets/Images/addnewshop_location_icon.png')} style={Styles.iconStyle} />
                         <TextInput
+                            ref={ref => {
+                                if (ref != null){
+                                    this.input_address = ref;
+                                }
+                            }}
                             style={Styles.TextInputStyle}
                             placeholder="Shop Address"
                             onChangeText={(text) => this.setState({address: text})}
                             value={this.state.address}
-                            
+                            blurOnSubmit={false} 
+                            onFocus={this.showModal.bind(this)}
                         />
                     </View>
 
@@ -177,10 +193,12 @@ export default class AddShop extends Component {
                         <Text style={Styles.signInStyle}>Next</Text>
                     </TouchableOpacity>
 
-
-                    
-
                 </View>
+
+                {/* AddressCompleteModal */}
+
+                <AddressCompleteModal visible={this.state.isModalVisible} />
+
             </View>
         );
     }

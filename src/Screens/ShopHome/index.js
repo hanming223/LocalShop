@@ -15,6 +15,7 @@ import {
 
 import { vendor_getShopList } from "../../Components/Api";
 import Styles from './styles';
+import { EventRegister } from 'react-native-event-listeners'
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -33,8 +34,10 @@ export default class ShopHome extends Component {
 
     async componentDidMount() {
 
-        // const shopInfo = this.props.navigation.getParam('shopInfo');
+    }
 
+    componentWillUnmount() {
+        EventRegister.emit('refreshShopList', 'it works!!!')
     }
 
     manageShops() {
@@ -50,7 +53,7 @@ export default class ShopHome extends Component {
             <View style={{flex: 1}}>
             <SafeAreaView style={{flexDirection: 'column', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 
-                <TouchableOpacity style={{width: deviceWidth * 0.9, aspectRatio: 2.2}}
+                <TouchableOpacity style={{width: deviceWidth * 0.93, flex: 10, marginTop: 15}}
                     onPress={this.manageShops}>
                     <ImageBackground source={require('../../Assets/Images/shop_home_shop_bg.png')}
                                 style={{width: '100%', height: '100%', alignItems: 'center'}} >
@@ -58,7 +61,7 @@ export default class ShopHome extends Component {
                     </ImageBackground>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{width: deviceWidth * 0.9, aspectRatio: 2.2, marginTop: 20}}
+                <TouchableOpacity style={{width: deviceWidth * 0.93, flex: 10, marginTop: 15}}
                     onPress={this.manageProducts}>
                     <ImageBackground source={require('../../Assets/Images/shop_home_product_bg.png')}
                                 style={{width: '100%', height: '100%', alignItems: 'center'}} >
@@ -66,7 +69,7 @@ export default class ShopHome extends Component {
                     </ImageBackground>
                 </TouchableOpacity>
 
-                <View style={{width: deviceWidth * 0.9, aspectRatio: 1.6, flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
+                <View style={{width: deviceWidth * 0.93, flexDirection: 'row', alignItems: 'center', marginTop: 15, flex: 13, marginBottom: 15}}>
 
                     <View style={{flex: 0.5}}>
                         <TouchableOpacity style={{height: '100%', marginRight: 10}}

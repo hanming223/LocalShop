@@ -7,10 +7,9 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, AsyncStorage, View} from 'react-native';
+import {Platform, AsyncStorage, View, SafeAreaView} from 'react-native';
 
-import {PrimaryNav} from "./src/Router";
-import {StartNav} from "./src/Router";
+import {PrimaryNav, StartNav, MainTabBar} from "./src/Router";
 
 export default class App extends Component {
 
@@ -37,27 +36,31 @@ export default class App extends Component {
     })
   }
 
-  render() {
-    
-    if (this.state.isLoggedIn == false){
+    render() {
       
-      return (
-        <StartNav />
-        
-      );
-    }else if (this.state.isLoggedIn == true){
-      
-      return (
-        <StartNav />
-        // <PrimaryNav />
-      );
-    }else{
-      return (
-        <View/>
-      );
-    }
+      <StartNav />
 
-    
-  }
+        if (this.state.isLoggedIn == false){
+          
+          return (
+            <StartNav />
+            
+          );
+        }else if (this.state.isLoggedIn == true){
+          
+          return (
+            
+            <View style={{flex: 1, backgroundColor: 'blue'}}>
+              <MainTabBar />
+            </View>
+          );
+        }else{
+          return (
+            <View/>
+          );
+        }
+
+      
+    }
 }
 

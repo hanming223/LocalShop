@@ -47,17 +47,6 @@ export default class ShopInfo extends Component {
     }
 
     async componentDidMount() {
-       
-        // let formData = new FormData();
-        // formData.append('usr', 'combatantek@gmail.com');
-        // formData.append('psw', 'lol');
-
-        // let json = await vendor_login(formData)
-        // alert(json.result);
-        // if (json.result == true){
-        //     // AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
-        //     // this.props.navigation.navigate("PrimaryNav")
-        // }
 
     }
 

@@ -11,6 +11,8 @@ export default class AppManager {
 
     shopInfoScreenKey = '';
 
+    similarProductArray = []
+
     /**
      * @returns {AppManager}
      */
