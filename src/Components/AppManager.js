@@ -10,6 +10,7 @@ export default class AppManager {
     selectedShopInfo = null;
 
     shopInfoScreenKey = '';
+    addProductScreenKey = '';
 
     similarProductArray = []
 

@@ -23,7 +23,7 @@ const API_VENDOR_GET_SIMILAR_PRODUCTS = API_ROOT + "similarProducts"
 const API_VENDOR_GET_PRODUCTS = API_ROOT + "getProducts"
 const API_VENDOR_UPLOAD_MULTIPLE_IMAGES = API_ROOT + "addImages"
 const API_VENDOR_GET_PRODUCT_VARIANTS = API_ROOT + "getProductVariants"
-
+const API_VENDOR_ADD_PRODUCT_RELATIONSHIP = API_ROOT + "addProductRelationship"
 
 
 export async function vendor_getShopList() {
@@ -92,6 +92,10 @@ export async function vendor_upload_multiple_images(json) {
 
 export async function vendor_get_product_variants(json) {
     return await postJSONWithToken(API_VENDOR_GET_PRODUCT_VARIANTS, json)
+}
+
+export async function vendor_add_product_relationship(json) {
+    return await postJSONWithToken(API_VENDOR_ADD_PRODUCT_RELATIONSHIP, json)
 }
 
 export async function getJSON(url){

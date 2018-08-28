@@ -40,6 +40,8 @@ export default class AddProduct extends Component {
 
     async componentDidMount() {
 
+        AppManager.getInstance.addProductScreenKey = this.props.navigation.state.key;
+
         // this.setState({loading: true});
         // let response = await vendor_get_mother_category()
         // this.setState({loading: false});
@@ -116,14 +118,14 @@ export default class AddProduct extends Component {
             return
         }
 
-        // this.setState({loading: true});
+        this.setState({loading: true});
 
         let formData = new FormData();
         formData.append('name', this.state.productName);
 
         let response = await vendor_get_similar_products(formData);
 
-        // this.setState({loading: false});
+        this.setState({loading: false});
 
         if (response.result == null){
 

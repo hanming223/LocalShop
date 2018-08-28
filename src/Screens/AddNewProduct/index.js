@@ -25,8 +25,9 @@ import AppManager from '../../Components/AppManager';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Picker from 'react-native-picker';
 import Styles from './styles';
+import {KeyboardManager, PreviousNextView} from 'react-native-keyboard-manager'
 
-import ImagePicker from 'react-native-image-picker';
+import { ImagePicker } from 'react-native-image-picker';
 
 
 const deviceWidth = Dimensions.get("window").width;
@@ -298,9 +299,9 @@ export default class AddNewProduct extends Component {
             <SafeAreaView style={Styles.safeArea}>
                 <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
 
-                <KeyboardAwareScrollView style={{width: '100%'}}>
+                <ScrollView style={{width: '100%'}}>
                 
-                    <View style={{marginLeft: 15, marginRight: 15, height: '100%', alignItems: 'center', marginTop: 20}}>
+                    <PreviousNextView style={{marginLeft: 15, marginRight: 15, height: '100%', alignItems: 'center', marginTop: 20}}>
 
                         {/* <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>You are the first to sell this product.</Text> */}
 
@@ -401,25 +402,22 @@ export default class AddNewProduct extends Component {
                         </View>
 
                         <View style={Styles.TextInputContainer}>
-                            {/* <TextInput
+                            <TextInput
                                 style={Styles.TextInputStyle}
                                 placeholder="Brand"
                                 value={this.state.productBrand}
                                 autoCapitalize='none'
                                 onFocus={this.showBrandPicker.bind(this)}
-                            /> */}
-
+                            />
                         </View>
-
-                        
 
                         <TouchableOpacity style={{width: '100%', height: 45, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41', marginTop: 30, marginBottom: 30}}
                                 onPress={this.onAddButton}>
                             <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>Add</Text>
                         </TouchableOpacity>
 
-                    </View>
-                </KeyboardAwareScrollView>
+                    </PreviousNextView>
+                </ScrollView>
 
             </SafeAreaView>
         );

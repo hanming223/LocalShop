@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, Button, Icon, View, Header } from 'react-native';
 import { StackNavigator, createBottomTabNavigator  } from 'react-navigation';
 import IconBadge from 'react-native-icon-badge';
-// import KeyboardManager from 'react-native-keyboard-manager'
+import KeyboardManager from 'react-native-keyboard-manager'
 
 
 import ShopList from "./Screens/ShopList";
@@ -25,6 +25,8 @@ import AddProductSelectVariant from './Screens/AddProductSelectVariant';
 console.disableYellowBox = true;
 
 // KeyboardManager.setEnable(false);
+// KeyboardManager.setToolbarPreviousNextButtonEnable(true);
+
 
 export const PrimaryNav = StackNavigator({
 

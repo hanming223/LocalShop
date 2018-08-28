@@ -12,12 +12,13 @@ import {
     View,
     FlatList,
     TouchableHighlight,
-    RefreshControl
+    RefreshControl,
+    Alert
 } from 'react-native';
 
 import { EventRegister } from 'react-native-event-listeners'
 import Dialog from "react-native-dialog";
-import { vendor_get_product_variants } from "../../Components/Api";
+import { vendor_add_product_relationship, vendor_get_product_variants } from "../../Components/Api";
 import AppManager from '../../Components/AppManager';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
@@ -30,7 +31,10 @@ export default class AddProductSelectVariant extends Component {
             loading: false,
             refreshing: false,
             variantArray: [],
-            isDialogVisible: false
+            isDialogVisible: false,
+            price: 0,
+            count: 0,
+            selectedVariant: null
         })
 
         this.onPressItem = this.onPressItem.bind(this)
@@ -71,35 +75,66 @@ export default class AddProductSelectVariant extends Component {
 
     onPressItem(item) {
         
-        // AppManager.getInstance.selectedShopInfo = item
-        // this.props.navigation.navigate("ShopHomeScreen");
-        alert('item clicked')
+        this.setState({selectedVariant: item})
+        this.setState({isDialogVisible: true})
+        
     }
 
     async onAddButton(){
 
+        this.setState({isDialogVisible: false})
+
+        let formData = new FormData();
+        formData.append('product', this.state.selectedVariant.id);
+        formData.append('price', this.state.price);
+        formData.append('count', this.state.count);
+        formData.append('manageShop', AppManager.getInstance.selectedShopInfo.id);
+
+        this.setState({loading: true});
+
+        let response = await vendor_add_product_relationship(formData);
+
+        this.setState({loading: false});
+
+        if (response.result == true){
+
+            Alert.alert(
+                'Success!',
+                'Variant added successfully.',
+                [
+                  {text: 'OK', onPress: () => {
+                        this.props.navigation.goBack(AppManager.getInstance.addProductScreenKey);
+                    }},
+                ],
+                { cancelable: false }
+            )
+
+        }else{
+
+            Alert.alert(
+                'Oops!',
+                'Something went wrong.',
+                [
+                  {text: 'OK', onPress: () => null},
+                ],
+                { cancelable: false }
+            )
+            
+        }
+
     }
 
     async onCancelButton(){
-
+        this.setState({isDialogVisible: false})
     }
 
     render() {
 
         return (
 
-            <View style={{flexDirection: 'column', backgroundColor: 'white', flex: 1}}>
+            <View style={{flexDirection: 'column', flex: 1}}>
    
                 <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
-
-                <Dialog.Container visible={true}>
-                    <Dialog.Title>Please enter price and count.</Dialog.Title>
-                    <Dialog.Description>
-                        Do you want to delete this account? You cannot undo this action.
-                    </Dialog.Description>
-                    <Dialog.Button label="Cancel" onPress={this.onCancelButton} />
-                    <Dialog.Button label="Add" onPress={this.onAddButton} />
-                </Dialog.Container>
 
                 <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: 10, marginBottom: 10}}>
                     There are some variants of this product.
@@ -138,6 +173,18 @@ export default class AddProductSelectVariant extends Component {
                     <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}>My product is not in this list</Text>
                 </TouchableOpacity>
     
+                <Dialog.Container visible={this.state.isDialogVisible}>
+                    <Dialog.Title>Please enter price and count.</Dialog.Title>
+                    <Dialog.Input placeholder='price' keyboardType='decimal-pad'
+                                  onChangeText={(text) => this.setState({price: text})}
+                                  value={this.state.price} />
+                    <Dialog.Input placeholder='count' keyboardType='decimal-pad'
+                                  onChangeText={(text) => this.setState({count: text})}
+                                  value={this.state.count} />
+                    <Dialog.Button label="Cancel" onPress={this.onCancelButton} />
+                    <Dialog.Button label="Add" onPress={this.onAddButton} />
+                </Dialog.Container>
+
             </View>
 
         );

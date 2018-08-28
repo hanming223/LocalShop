@@ -27,6 +27,7 @@ PODS:
   - GoogleMaps/Base (2.5.0)
   - GoogleMaps/Maps (2.5.0):
     - GoogleMaps/Base
+  - IQKeyboardManager (4.0.13)
   - Picker (4.3.7):
     - Picker/Core (= 4.3.7)
   - Picker/Core (4.3.7):
@@ -86,6 +87,9 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - ReactNativeKeyboardManager (4.0.13-9):
+    - IQKeyboardManager (= 4.0.13)
+    - React
   - yoga (0.56.0.React)
 
 DEPENDENCIES:
@@ -111,6 +115,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - ReactNativeKeyboardManager (from `../node_modules/react-native-keyboard-manager`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -118,6 +123,7 @@ SPEC REPOS:
     - boost-for-react-native
     - Google-Maps-iOS-Utils
     - GoogleMaps
+    - IQKeyboardManager
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -136,6 +142,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  ReactNativeKeyboardManager:
+    :path: "../node_modules/react-native-keyboard-manager"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -146,13 +154,15 @@ SPEC CHECKSUMS:
   glog: b3b0330915eccea41c5cc9731a77cf564a9be5ea
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
+  IQKeyboardManager: 8eab4d8111418414619d1df8e4779ce5d0f8d7e2
   Picker: 67a2566d9ff6b141d505d88b9177f905aaa5f1a6
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-google-maps: 2cfe3b01f8422c7dae51d8764139fd70f888cfce
   react-native-image-picker: b303e31c3c4ada1d7cb1342423d328d2efb07fb3
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  ReactNativeKeyboardManager: 8f6b306c53db397541295a03e064bdba07024b5c
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 9291666f0de5510dfeb0c025c227c76912d75647
+PODFILE CHECKSUM: e493da74f35d20547ee482beea29c1a3f8723fea
 
 COCOAPODS: 1.5.3
