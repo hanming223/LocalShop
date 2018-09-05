@@ -47,15 +47,17 @@ export default class AddressCompleteModal extends Component {
                     animationOut="zoomOutUp"
                     animationInTiming={500}
                     animationOutTiming={500}
+                    animationType='none'
                     style={{alignItems: 'center'}}>
 
-                    <SafeAreaView style={{width: '100%', height: '100%', backgroundColor: 'red'}}>
+                    <SafeAreaView style={{width: '100%', height: '100%'}}>
 
-                        <View style={{width: '100%', height: 60, backgroundColor: 'blue', justifyContent: 'center', flexDirection: 'row'}}>
+                        <View style={{ width: '100%', height: 35, flexDirection: 'row', justifyContent:'center', alignItems: 'center'}}>
 
-                            <Text style={{color: 'black', fontSize: 20, alignSelf: 'center'}}>Select Address</Text>
-                            <TouchableOpacity style={{alignSelf: 'flex-end', width: 100, height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41', marginTop: 20}}
-                                onPress={this.onNextButton}>
+                            <Text style={{color: 'black', fontSize: 20}}>Select Address</Text>
+
+                            <TouchableOpacity style={{ position: 'absolute', right: 0, width: 80, height: 30, alignItems: 'flex-end', justifyContent: 'center'}}
+                                              onPress={()=>this.props.onCancel()}>
                                 <Text style={Styles.signInStyle}>Cancel</Text>
                             </TouchableOpacity>
 
@@ -71,7 +73,7 @@ export default class AddressCompleteModal extends Component {
                             renderDescription={row => row.description} // custom description render
                             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                                 console.log('xxxxxx', details);
-                                this.setState({address: data.description, isModalVisible: false, lat: details.geometry.location.lat, lng: details.geometry.location.lng})
+                                this.props.onDone(data.description, details.geometry.location.lat, details.geometry.location.lng);
                             }}
                             
                             getDefaultValue={() => ''}

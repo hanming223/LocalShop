@@ -41,6 +41,8 @@ export default class AddProductSelectVariant extends Component {
 
         this.onAddButton = this.onAddButton.bind(this)
         this.onCancelButton = this.onCancelButton.bind(this)
+        
+        this.onAddVariantButton = this.onAddVariantButton.bind(this)
 
     }
 
@@ -51,8 +53,6 @@ export default class AddProductSelectVariant extends Component {
         let formData = new FormData();
         formData.append('productId', this.props.navigation.getParam('productId'));
         let response = await vendor_get_product_variants(formData)
-
-        this.setState({loading: false})
 
         if (response.result == true){
 
@@ -70,6 +70,8 @@ export default class AddProductSelectVariant extends Component {
             this.props.navigation.goBack()
 
         }
+
+        this.setState({loading: false})
 
     }
 
@@ -128,6 +130,13 @@ export default class AddProductSelectVariant extends Component {
         this.setState({isDialogVisible: false})
     }
 
+    onAddVariantButton(){
+
+        let id = this.props.navigation.getParam('productId')
+        this.props.navigation.navigate("AddNewVariantScreen", {productId: id});
+
+    }
+
     render() {
 
         return (
@@ -136,8 +145,11 @@ export default class AddProductSelectVariant extends Component {
    
                 <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
 
-                <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: 10, marginBottom: 10}}>
+                <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: 10}}>
                     There are some variants of this product.
+                </Text>
+                <Text style={{fontSize: 15, fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: 5, marginBottom: 10}}>
+                    Tap on to add variants.
                 </Text>
 
                 <FlatList
@@ -146,7 +158,7 @@ export default class AddProductSelectVariant extends Component {
                     data={this.state.variantArray}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({item, separators}) => {    
-                        // let imageLocation = "http://ls.antonioantek.com/images/" + item.preview + ".jpg"
+                        let imageLocation = "http://ls.antonioantek.com/images/" + item.preview + ".jpg"
                         return <TouchableHighlight
                                 onPress={() => this.onPressItem(item)}
                                 onShowUnderlay={separators.highlight}
@@ -155,8 +167,8 @@ export default class AddProductSelectVariant extends Component {
                                     <View style={{backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', height: '100%'}}>
                                         <View style={{width: 60, height: 60, borderRadius: 30, borderWidth: 0.3, borderColor: 'gray', marginLeft: 20}}>
                                             
-                                                {/* <Image source={{uri: imageLocation}}
-                                                    style={{width: '100%', height: '100%', resizeMode: 'cover', borderRadius: 30}} /> */}
+                                                <Image source={{uri: imageLocation}}
+                                                    style={{width: '100%', height: '100%', resizeMode: 'cover', borderRadius: 30}} />
                                                                          
                                         </View>
                                         <Text style={{fontSize: 16, fontWeight: '600', color: 'black', marginLeft: 20}}>{item.name}</Text>
@@ -169,7 +181,7 @@ export default class AddProductSelectVariant extends Component {
 
                 <TouchableOpacity style={{height: 45, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41', marginBottom: 10,
                         marginLeft: 15, marginRight: 15,  marginTop: 15}}
-                        onPress={this.onAddButton}>
+                        onPress={this.onAddVariantButton}>
                     <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}>My product is not in this list</Text>
                 </TouchableOpacity>
     

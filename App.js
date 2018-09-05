@@ -9,7 +9,7 @@
 import React, {Component} from 'react';
 import {Platform, AsyncStorage, View, SafeAreaView} from 'react-native';
 
-import {PrimaryNav, StartNav, MainTabBar} from "./src/Router";
+import {PrimaryNav, StartNav, MainTabBar, AppSwitch} from "./src/Router";
 
 export default class App extends Component {
 
@@ -24,41 +24,45 @@ export default class App extends Component {
 
     // await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
 
-    AsyncStorage.getItem("is_loggedin")
-    .then(value=>{
+    // AsyncStorage.getItem("is_loggedin")
+    // .then(value=>{
       
-      if (value == null){
-        this.setState({isLoggedIn: false});
-      }else{
-        this.setState({isLoggedIn: JSON.parse(value)});
-      }
+    //   if (value == null){
+    //     this.setState({isLoggedIn: false});
+    //   }else{
+    //     this.setState({isLoggedIn: JSON.parse(value)});
+    //   }
 
-    })
+    // })
   }
 
     render() {
       
-      <StartNav />
+      return (
+        <AppSwitch/>
+      )
+      
+      // <StartNav />
 
-        if (this.state.isLoggedIn == false){
+      //   if (this.state.isLoggedIn == false){
           
-          return (
-            <StartNav />
+      //     return (
+      //       <StartNav />
             
-          );
-        }else if (this.state.isLoggedIn == true){
+      //     );
+      //   }else if (this.state.isLoggedIn == true){
           
-          return (
+      //     return (
             
-            <View style={{flex: 1, backgroundColor: 'blue'}}>
-              <MainTabBar />
-            </View>
-          );
-        }else{
-          return (
-            <View/>
-          );
-        }
+      //       <View style={{flex: 1, backgroundColor: 'blue'}}>
+      //         <MainTabBar />
+      //       </View>
+      //     );
+      //   }else{
+      //     return (
+      //       <View/>
+      //     );
+      //   }
 
       
     }

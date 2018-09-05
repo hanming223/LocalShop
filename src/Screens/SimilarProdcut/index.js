@@ -49,7 +49,7 @@ export default class SimilarProduct extends Component {
     }
 
     async onAddButton(){
-
+        this.props.navigation.navigate("AddNewProductScreen");
     }
 
     render() {

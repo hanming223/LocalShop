@@ -20,6 +20,8 @@ import { vendor_getShopList, vendor_login, vendor_signup } from "../../Component
 import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
 
+import MainTaBar from "../../Router.js"
+
 const deviceWidth = Dimensions.get("window").width;
 
 export default class Login extends Component {
@@ -68,7 +70,8 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
-                this.props.navigation.navigate("MainTabBar")
+                
+                this.props.navigation.navigate("Main")
                 
             }else{
                 
@@ -98,7 +101,7 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
-                this.props.navigation.navigate("PrimaryNav")
+                this.props.navigation.navigate("MainTabBarScreen")
                 
             }else{
                 

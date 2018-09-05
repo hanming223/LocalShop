@@ -39,4 +39,30 @@ export default {
         
     },
 
+    gridView: {
+        width: '100%',
+        flex: 1,
+    },
+
+    itemImageContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 5,
+        height: 150,
+    },
+
+    itemViewContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 5,
+        height: 150,
+        backgroundColor: 'lightgray'
+    },
+
+    itemName: {
+        fontSize: 16,
+        color: 'black',
+        fontWeight: '600',
+        marginLeft: 4,
+        marginBottom: 4
+    }
+
 };

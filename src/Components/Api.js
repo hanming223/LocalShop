@@ -24,6 +24,15 @@ const API_VENDOR_GET_PRODUCTS = API_ROOT + "getProducts"
 const API_VENDOR_UPLOAD_MULTIPLE_IMAGES = API_ROOT + "addImages"
 const API_VENDOR_GET_PRODUCT_VARIANTS = API_ROOT + "getProductVariants"
 const API_VENDOR_ADD_PRODUCT_RELATIONSHIP = API_ROOT + "addProductRelationship"
+const API_VENDOR_GET_SUGGESTED_DETAILS = API_ROOT + "getSuggestedDetails"
+const API_VENDOR_GET_DETAIL_VALUES = API_ROOT + "getDetailParams"
+const API_VENDOR_ADD_DETAIL_VALUES = API_ROOT + "addDetailParams"
+const API_VENDOR_ADD_NEW_PRODUCT = API_ROOT + "addProduct"
+const API_VENDOR_ADD_NEW_VARIANT = API_ROOT + "addProductVariant"
+const API_VENDOR_SET_PRODUCT_PREVIEW = API_ROOT + "setProductPreview"
+const API_VENDOR_UPDATE_SHOP_SCHEDULE = API_ROOT + "updateShopInfo"
+const API_VENDOR_GET_INFO = API_ROOT + "getVendorInfo"
+const API_VENDOR_UPDATE_INFO = API_ROOT + "updateVendorInfo"
 
 
 export async function vendor_getShopList() {
@@ -82,8 +91,8 @@ export async function vendor_get_brands() {
     return await postJSONWithToken(API_VENDOR_GET_BRANDS)
 }
 
-export async function vendor_get_sub_catgegory() {
-    return await postJSONWithToken(API_VENDOR_GET_SUB_CATEGORY)
+export async function vendor_get_sub_catgegory(json) {
+    return await postJSONWithToken(API_VENDOR_GET_SUB_CATEGORY, json)
 }
 
 export async function vendor_upload_multiple_images(json) {
@@ -96,6 +105,42 @@ export async function vendor_get_product_variants(json) {
 
 export async function vendor_add_product_relationship(json) {
     return await postJSONWithToken(API_VENDOR_ADD_PRODUCT_RELATIONSHIP, json)
+}
+
+export async function vendor_get_suggested_details(json) {
+    return await postJSONWithToken(API_VENDOR_GET_SUGGESTED_DETAILS, json)
+}
+
+export async function vendor_get_detail_values(json) {
+    return await postJSONWithToken(API_VENDOR_GET_DETAIL_VALUES, json)
+}
+
+export async function vendor_add_detail_values(json) {
+    return await postJSONWithToken(API_VENDOR_ADD_DETAIL_VALUES, json)
+}
+
+export async function vendor_add_new_product(json) {
+    return await postJSONWithToken(API_VENDOR_ADD_NEW_PRODUCT, json)
+}
+
+export async function vendor_add_new_variant(json) {
+    return await postJSONWithToken(API_VENDOR_ADD_NEW_VARIANT, json)
+}
+
+export async function vendor_set_product_preview(json) {
+    return await postJSONWithToken(API_VENDOR_SET_PRODUCT_PREVIEW, json)
+}
+
+export async function vendor_update_shop_schedule(json) {
+    return await postJSONWithToken(API_VENDOR_UPDATE_SHOP_SCHEDULE, json)
+}
+
+export async function vendor_get_info(json) {
+    return await getJSONWithToken(API_VENDOR_GET_INFO, json)
+}
+
+export async function vendor_update_info(json) {
+    return await postJSONWithToken(API_VENDOR_UPDATE_INFO, json)
 }
 
 export async function getJSON(url){

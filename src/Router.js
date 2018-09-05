@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, Image, StyleSheet, TouchableOpacity, Text, Button, Icon, View, Header } from 'react-native';
-import { StackNavigator, createBottomTabNavigator  } from 'react-navigation';
+import { StackNavigator, createBottomTabNavigator, createSwitchNavigator  } from 'react-navigation';
 import IconBadge from 'react-native-icon-badge';
 import KeyboardManager from 'react-native-keyboard-manager'
 
@@ -20,6 +20,11 @@ import SimilarProduct from './Screens/SimilarProdcut';
 import ChatInbox from './Screens/ChatInbox';
 import NotificationList from './Screens/NotificationList';
 import AddProductSelectVariant from './Screens/AddProductSelectVariant';
+import AddNewVariant from './Screens/AddNewVariant';
+import ShopSetting from './Screens/ShopSetting';
+import ShopScheduleUpdate from './Screens/ShopScheduleUpdate';
+import VendorSetting from './Screens/VendorSetting';
+import AuthLoadingScreen from './Screens/AuthLoadingScreen'
 
 
 console.disableYellowBox = true;
@@ -41,12 +46,7 @@ export const PrimaryNav = StackNavigator({
 
     ShopHomeScreen: { 
         screen: ShopHome,
-        navigationOptions: ({ navigation }) => ({
-            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{AppManager.getInstance.selectedShopInfo.name}</Text>  ,
-            headerStyle: { backgroundColor: '#EC6A41' },
-            headerRight: <MenuIcon {...navigation} />,
-            headerTintColor: 'white'
-        }), 
+        
     },
 
     AddShopScreen: { 
@@ -128,23 +128,45 @@ export const PrimaryNav = StackNavigator({
             headerStyle: { backgroundColor: '#EC6A41' },
             headerTintColor: 'white'
         }), 
-    }
+    },
+
+    AddNewVariantScreen: { 
+        screen: AddNewVariant,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Add new variant</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerTintColor: 'white'
+        }), 
+    },
+
+    ShopSettingScreen: { 
+        screen: ShopSetting,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Setting</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerTintColor: 'white'
+        }), 
+    },
+
+    ShopScheduleUpdateScreen: { 
+        screen: ShopScheduleUpdate,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Schedule Update</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerTintColor: 'white'
+        }), 
+    },
+
+    VendorSettingScreen: { 
+        screen: VendorSetting,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Vendor Setting</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerTintColor: 'white'
+        }), 
+    },
 
 })
-
-const MenuIcon = ({ navigate }) => {
-    return (
-        <View flexDirection = 'row' style = {{marginRight: 5}}>
-            <TouchableOpacity style={{width: 30, height: 30}} onPress={this.onSigninButton}>
-                <Image source={require('./Assets/Images/nav_setting_icon.png')} style={{width: 22, height: 22}} />
-            </TouchableOpacity>
-
-            {/* <TouchableOpacity style={{width: 30, height: 30}} onPress={this.onSigninButton}>
-                <Image source={require('./Assets/Images/message_icon.png')} style={{width: 20, height: 20}} />
-            </TouchableOpacity> */}
-        </View>
-    );
-}
 
 export const ChatNav = StackNavigator({
     ChatInboxScreen: { 
@@ -166,13 +188,6 @@ export const NotificationNav = StackNavigator({
             headerTintColor: 'white'
         }), 
     }
-})
-
-export const StartNav = StackNavigator({
-    LoginScreen: { screen: Login },
-    PrimaryNav: {screen: PrimaryNav}
-}, {
-    headerMode: 'none',
 })
 
 export const MainTabBar = createBottomTabNavigator(
@@ -211,6 +226,21 @@ export const MainTabBar = createBottomTabNavigator(
       style: {backgroundColor: '#EC6A41'}
     },
 
-  }
+  });
 
-);
+    export const StartNav = StackNavigator({
+        LoginScreen: Login
+    }, {
+        headerMode: 'none',
+    })
+
+    export const AppSwitch = createSwitchNavigator(
+        {
+            AuthLoading: AuthLoadingScreen,
+            Start: StartNav,
+            Main: MainTabBar
+        },
+        {
+            initialRouteName: 'AuthLoading'
+        }
+    );

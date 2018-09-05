@@ -40,7 +40,7 @@ export default class AddShop extends Component {
             categoryId: "",
             categoryData: [],
             categoryArray: [],
-            loading: true,
+            loading: false,
             isModalVisible: false
         })
 
@@ -50,7 +50,7 @@ export default class AddShop extends Component {
     }
 
     async componentDidMount() {
-
+        this.setState({loading: true});
         let response = await vendor_get_mother_category()
         this.setState({loading: false});
         
@@ -74,6 +74,7 @@ export default class AddShop extends Component {
         }
 
         AppManager.getInstance.shopInfoScreenKey = this.props.navigation.state.key;
+
     }
 
     categoryPicked(pickedValue, pickedIndex){
@@ -197,7 +198,13 @@ export default class AddShop extends Component {
 
                 {/* AddressCompleteModal */}
 
-                <AddressCompleteModal visible={this.state.isModalVisible} />
+                <AddressCompleteModal visible={this.state.isModalVisible} onDone={(address, lat, lng)=>{
+                                            this.setState({address: address, isModalVisible: false, lat: lat, lng: lng})
+                                        }}
+                                        onCancel={()=>{
+                                            this.setState({isModalVisible: false})
+                                        }}
+                                      />
 
             </View>
         );

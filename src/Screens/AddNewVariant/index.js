@@ -20,29 +20,24 @@ import {
 } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { vendor_get_brands, vendor_get_sub_catgegory, vendor_get_suggested_details, vendor_upload_multiple_images, vendor_add_image_relationship, vendor_set_product_preview,
-         vendor_upload_image, vendor_get_detail_values, vendor_add_detail_values, vendor_add_new_product } from "../../Components/Api";
+import { vendor_get_brands, vendor_get_sub_catgegory, vendor_get_suggested_details, vendor_add_image_relationship, vendor_upload_multiple_images,
+         vendor_set_product_preview, vendor_upload_image, vendor_get_detail_values, vendor_add_detail_values, vendor_add_new_variant } from "../../Components/Api";
 import AppManager from '../../Components/AppManager';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
 import {KeyboardManager, PreviousNextView} from 'react-native-keyboard-manager'
 import ModalSelector from 'react-native-modal-selector'
 import Dialog from "react-native-dialog";
-
 import ImagePicker from 'react-native-image-picker';
 
-
-const deviceWidth = Dimensions.get("window").width;
-
-export default class AddNewProduct extends Component {
+export default class AddNewVariant extends Component {
     constructor(props) {
         super(props);
         this.state = ({
+
             loading: false,
             isDialogVisible: false,
-            brandArray: [],
-            categoryArray: [],
-
+           
             suggestedDetailArray: [],
             suggestedDetailValueArray: [],
             selectedDetailArray: [],
@@ -52,15 +47,9 @@ export default class AddNewProduct extends Component {
             imageURIArray: [],
             imageEncodedStringArray: [],
 
-            productName: '',
-            productCategory: '',
-            productCategoryId: '',
-            productDescription: '',
-            productPrice: '',
+            productId: null,
+         
             productColor: '',
-            productCount: '',
-            productBrand: '',
-            productBrandId: '',
             productModel: '',
 
             detailValues: [],
@@ -70,9 +59,6 @@ export default class AddNewProduct extends Component {
             currentDetailIndex: null,
 
         })
-
-        // this.showCategoryPicker = this.showCategoryPicker.bind(this);
-        // this.showBrandPicker = this.showBrandPicker.bind(this);
 
         this.onAddImageButton = this.onAddImageButton.bind(this);
         this.onThumbnailButton = this.onThumbnailButton.bind(this);
@@ -85,6 +71,8 @@ export default class AddNewProduct extends Component {
 
     async componentDidMount() {
 
+        this.setState({productId: this.props.navigation.getParam('productId')})
+
         this.getPredefinedValues()
         
         
@@ -92,65 +80,14 @@ export default class AddNewProduct extends Component {
 
     async getPredefinedValues(){
 
-        //get brands
+        // get suggested details
 
         this.setState({loading: true});
 
-        let response = await vendor_get_brands()
-
-        if (response.length > 0){
-
-            let temp = []
-
-            for (let i = 0; i < response.length; i++){
-
-                let item = {key: response[i].id, label: response[i].name}
-                temp.push(item)
-
-            }
-
-            this.setState({brandArray: temp});
-            
-        }else{
-
-            this.setState({loading: false});
-            this.props.navigation.goBack();
-
-        }
-
-        // get categories 
-
         let formData = new FormData();
-        formData.append('mother', AppManager.getInstance.selectedShopInfo.category);
-
-        response = await vendor_get_sub_catgegory(formData)
-
-        if (response.message.length > 0){
-            
-            let temp = []
-
-            for (let i = 0; i < response.message.length; i++){
-
-                let item = {key: response.message[i].id, label: response.message[i].name}
-                temp.push(item)
-
-            }
-
-            this.setState({categoryArray: temp});
-
-        }else{
-
-            this.setState({loading: false});
-            this.props.navigation.goBack();
-
-        }
-
-        // get suggested details
-
-        formData = new FormData();
         formData.append('catId', AppManager.getInstance.selectedShopInfo.category);
 
-        response = await vendor_get_suggested_details(formData)
+        let response = await vendor_get_suggested_details(formData)
 
         if (response.result == true){
             
@@ -239,7 +176,7 @@ export default class AddNewProduct extends Component {
                 this.setState({imageURIArray: temp})
 
                 temp = this.state.imageEncodedStringArray
-                temp.push('data:image/jpeg;base64,' + response.data)
+                temp.push('data:image/png;base64,' + response.data)
                 this.setState({imageEncodedStringArray: temp})
 
             }
@@ -330,8 +267,7 @@ export default class AddNewProduct extends Component {
             return
         }
 
-        if (this.state.productName == '' || this.state.productCategory == '' || this.state.productDescription == '' || this.state.productPrice == '' || 
-            this.state.productColor == '' || this.state.productCount == '' || this.state.productBrand == '' || this.state.productModel == ''){
+        if (this.state.productColor == '' || this.state.productModel == ''){
 
             Alert.alert(
                 'Oops!',
@@ -396,15 +332,9 @@ export default class AddNewProduct extends Component {
 
         let formData = new FormData()
 
-        formData.append('name', this.state.productName)
-        formData.append('cat', this.state.productCategoryId)
-        formData.append('desc', this.state.productDescription)
-        formData.append('price', this.state.productPrice)
         formData.append('color', this.state.productColor)
-        formData.append('count', this.state.productCount)
-        formData.append('brand', this.state.productBrandId)
         formData.append('modelName', this.state.productModel)
-        formData.append('manageShop', AppManager.getInstance.selectedShopInfo.id)
+        formData.append('product', this.state.productId)
 
         let detailArray = []
         for (let i = 0; i < this.state.selectedDetailArray.length; i++){
@@ -413,12 +343,13 @@ export default class AddNewProduct extends Component {
 
         }
 
-        formData.append('details', JSON.stringify(detailArray))
+        formData.append('details', detailArray)
 
-        let response = await vendor_add_new_product(formData)
+        console.log('vvv', formData)
+
+        let response = await vendor_add_new_variant(formData)
 
         let productId = null
-
         if (response.result == true){
 
             productId = response.message
@@ -439,52 +370,49 @@ export default class AddNewProduct extends Component {
 
         if (response.result == true){
             
-                if (this.state.imageEncodedStringArray.length == 0){
+            if (this.state.imageEncodedStringArray.length == 0){
 
-                    Alert.alert(
-                        'Success!',
-                        'Product added successfully.',
-                        [
-                          {text: 'OK', onPress: () => {
-                                this.setState({loading: false});
-                                this.props.navigation.goBack(AppManager.getInstance.addProductScreenKey);
-                            }},
-                        ],
-                        { cancelable: false }
-                    )
+                Alert.alert(
+                    'Success!',
+                    'Variant added successfully.',
+                    [
+                        {text: 'OK', onPress: () => {
+                            this.setState({loading: false});
+                            this.props.navigation.goBack(AppManager.getInstance.addProductScreenKey);
+                        }},
+                    ],
+                    { cancelable: false }
+                )
 
-                    return
+                return
 
-                }
+            }
 
+            //upload multiple images
+            
+            formData = new FormData();
 
-                //upload multiple images
+            formData.append('images', this.state.imageEncodedStringArray.toString());
+            formData.append('target', productId);
+            formData.append('type', 1);
 
-                formData = new FormData();
+            response = await vendor_upload_multiple_images(formData);
 
-                formData.append('images', this.state.imageEncodedStringArray.toString());
-                formData.append('target', productId);
-                formData.append('type', 1);
-                
-                response = await vendor_upload_multiple_images(formData);
+            if (response.result == true){
 
-                if (response.result == true){
-                    
-                    Alert.alert(
-                        'Success!',
-                        'Product added successfully..',
-                        [
-                          {text: 'OK', onPress: () => {
-                                this.setState({loading: false});
-                                this.props.navigation.goBack(AppManager.getInstance.addProductScreenKey);
-                            }},
-                        ],
-                        { cancelable: false }
-                    )
+                Alert.alert(
+                    'Success!',
+                    'Variant added successfully..',
+                    [
+                        {text: 'OK', onPress: () => {
+                            this.setState({loading: false});
+                            this.props.navigation.goBack(AppManager.getInstance.addProductScreenKey);
+                        }},
+                    ],
+                    { cancelable: false }
+                )
 
-                }else{
-                    this.setState({loading: false});        
-                }
+            }
 
         }else{
             this.setState({loading: false});
@@ -504,7 +432,7 @@ export default class AddNewProduct extends Component {
 
                         {/* <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>You are the first to sell this product.</Text> */}
 
-                        <Text style={{fontSize: 16, fontWeight: 'normal', color: 'black'}}>Product Preview</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'normal', color: 'black'}}>Product Thumbnail</Text>
 
                         <TouchableOpacity style={{width: 160, height: 160, borderRadius: 80, marginTop: 20}} onPress={this.onThumbnailButton}>
 
@@ -540,92 +468,11 @@ export default class AddNewProduct extends Component {
                         <View style={Styles.TextInputContainer}>
                             <TextInput
                                 style={Styles.TextInputStyle}
-                                placeholder="Product Name"
-                                onChangeText={(text) => this.setState({productName: text})}
-                                autoCapitalize='none'
-                                value={this.state.productName}
-                            />
-                        </View>
-
-                        <View style={Styles.TextInputContainer}>
-                            <ModalSelector
-                                data={this.state.categoryArray}
-                                initValue="Select something yummy!"
-                                accessible={true}
-                                overlayStyle={{backgroundColor: 'rgba(0,0,0,0.8)'}}
-                                scrollViewAccessibilityLabel={'Scrollable options'}
-                                cancelButtonAccessibilityLabel={'Cancel Button'}
-                                onChange={(option)=>{ this.setState({productCategory: option.label, productCategoryId: option.key})}}
-                                >
-                                <TextInput
-                                    style={Styles.TextInputStyle}
-                                    placeholder="Category"
-                                    onChangeText={(text) => this.setState({productCategory: text})}
-                                    value={this.state.productCategory}
-                                    autoCapitalize='none'
-                                />
-                            </ModalSelector>
-                        </View>
-
-                        <View style={Styles.TextInputDescriptionContainer}>
-                            <TextInput
-                                style={{height: '100%', width: '100%', paddingLeft: 20, paddingRight: 20, paddingTop: 15, paddingBottom: 15}}
-                                placeholder="Description"
-                                onChangeText={(text) => this.setState({productDescription: text})}
-                                value={this.state.productDescription}
-                                autoCapitalize='none'
-                                multiline={true}
-                            />
-                        </View>
-
-                        <View style={Styles.TextInputContainer}>
-                            <TextInput
-                                style={Styles.TextInputStyle}
-                                placeholder="Price"
-                                onChangeText={(text) => this.setState({productPrice: text})}
-                                value={this.state.productPrice}
-                                autoCapitalize='none'
-                                keyboardType='decimal-pad'
-                            />
-                        </View>
-
-                        <View style={Styles.TextInputContainer}>
-                            <TextInput
-                                style={Styles.TextInputStyle}
                                 placeholder="Color"
                                 onChangeText={(text) => this.setState({productColor: text})}
                                 value={this.state.productColor}
                                 autoCapitalize='none'
                             />
-                        </View>
-
-                        <View style={Styles.TextInputContainer}>
-                            <TextInput
-                                style={Styles.TextInputStyle}
-                                placeholder="Count"
-                                onChangeText={(text) => this.setState({productCount: text})}
-                                value={this.state.productCount}
-                                autoCapitalize='none'
-                            />
-                        </View>
-
-                        <View style={Styles.TextInputContainer}>
-                            <ModalSelector
-                                overlayStyle={{backgroundColor: 'rgba(0,0,0,0.8)'}}
-                                data={this.state.brandArray}
-                                initValue="Select something yummy!"
-                                accessible={true}
-                                scrollViewAccessibilityLabel={'Scrollable options'}
-                                cancelButtonAccessibilityLabel={'Cancel Button'}
-                                onChange={(option)=>{ this.setState({productBrand: option.label, productBrandId: option.key})}}
-                                >
-                                <TextInput
-                                    style={Styles.TextInputStyle}
-                                    placeholder="Brand"
-                                    value={this.state.productBrand}
-                                    autoCapitalize='none'
-                                />
-                            </ModalSelector>
                         </View>
 
                         <View style={Styles.TextInputContainer}>

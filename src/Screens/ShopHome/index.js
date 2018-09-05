@@ -16,11 +16,35 @@ import {
 import { vendor_getShopList } from "../../Components/Api";
 import Styles from './styles';
 import { EventRegister } from 'react-native-event-listeners'
+import AppManager from '../../Components/AppManager'
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
+// const SettingIcon = ({ navigate }) => {
+//     return (
+        
+//     );
+// }
+
+let _this = null
+
 export default class ShopHome extends Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>{AppManager.getInstance.selectedShopInfo.name}</Text>  ,
+        headerStyle: { backgroundColor: '#EC6A41' },
+        headerRight: <View flexDirection = 'row' style = {{marginRight: 5}}>
+                        <TouchableOpacity style={{width: 30, height: 30}} onPress={()=>_this.onSettingButton()}>
+                            <Image source={require('../../Assets/Images/nav_setting_icon.png')} style={{width: 22, height: 22}} />
+                        </TouchableOpacity>
+
+                        {/* <TouchableOpacity style={{width: 30, height: 30}} onPress={this.onSigninButton}>
+                            <Image source={require('./Assets/Images/message_icon.png')} style={{width: 20, height: 20}} />
+                        </TouchableOpacity> */}
+                    </View>,
+        headerTintColor: 'white'
+    })
 
     constructor(props) {
         super(props);
@@ -30,10 +54,12 @@ export default class ShopHome extends Component {
 
         this.manageShops = this.manageShops.bind(this);
         this.manageProducts = this.manageProducts.bind(this);
+
+        this.onSettingButton = this.onSettingButton.bind(this);
     }
 
     async componentDidMount() {
-
+        _this = this
     }
 
     componentWillUnmount() {
@@ -46,6 +72,10 @@ export default class ShopHome extends Component {
 
     manageProducts() {
         this.props.navigation.navigate("ProductManageScreen")
+    }
+
+    onSettingButton(){
+        this.props.navigation.navigate("ShopSettingScreen")
     }
 
     render() {
