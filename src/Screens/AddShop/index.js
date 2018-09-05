@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MapView from 'react-native-maps';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Picker from 'react-native-picker';
 import Spinner from 'react-native-loading-spinner-overlay';

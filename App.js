@@ -10,6 +10,18 @@ import React, {Component} from 'react';
 import {Platform, AsyncStorage, View, SafeAreaView} from 'react-native';
 
 import {PrimaryNav, StartNav, MainTabBar, AppSwitch} from "./src/Router";
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB53ffCQrPZlqbk3g_KJuvwKi7mG27sOIU",
+  authDomain: "localshop-35331.firebaseapp.com",
+  databaseURL: "https://localshop-35331.firebaseio.com",
+  storageBucket: "localshop-35331.appspot.com",
+  projectId: "localshop-35331",
+  messagingSenderId: "937195172665"
+
+};
+
 
 export default class App extends Component {
 
@@ -21,6 +33,8 @@ export default class App extends Component {
   }
 
   async componentDidMount() {
+
+    let firebaseApp = firebase.initializeApp(firebaseConfig);
 
     // await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
 
