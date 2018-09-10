@@ -33,6 +33,10 @@ const API_VENDOR_SET_PRODUCT_PREVIEW = API_ROOT + "setProductPreview"
 const API_VENDOR_UPDATE_SHOP_SCHEDULE = API_ROOT + "updateShopInfo"
 const API_VENDOR_GET_INFO = API_ROOT + "getVendorInfo"
 const API_VENDOR_UPDATE_INFO = API_ROOT + "updateVendorInfo"
+const API_VENDOR_GET_SHOP_PERMISSION = API_ROOT + "getShopPermissions"
+const API_VENDOR_GET_RANK_LIST = API_ROOT + "getRankList"
+const API_VENDOR_ADD_SHOP_PERMISSION = API_ROOT + "addShopPermission"
+const API_VENDOR_UPDATE_SHOP_PERMISSION = API_ROOT + "updateShopPermission"
 
 
 export async function vendor_getShopList() {
@@ -142,6 +146,24 @@ export async function vendor_get_info(json) {
 export async function vendor_update_info(json) {
     return await postJSONWithToken(API_VENDOR_UPDATE_INFO, json)
 }
+
+export async function vendor_get_shop_permission(json) {
+    return await postJSONWithToken(API_VENDOR_GET_SHOP_PERMISSION, json)
+}
+
+export async function vendor_get_rank_list(json) {
+    return await getJSONWithToken(API_VENDOR_GET_RANK_LIST, json)
+}
+
+export async function vendor_add_shop_permission(json) {
+    return await postJSONWithToken(API_VENDOR_ADD_SHOP_PERMISSION, json)
+}
+
+export async function vendor_update_shop_permission(json) {
+    return await postJSONWithToken(API_VENDOR_UPDATE_SHOP_PERMISSION, json)
+}
+
+
 
 export async function getJSON(url){
 

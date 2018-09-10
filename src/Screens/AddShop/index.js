@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Picker from 'react-native-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
-
-
 import { EventRegister } from 'react-native-event-listeners'
-
+import ModalSelector from 'react-native-modal-selector'
 
 import {
     Alert,
@@ -27,9 +24,6 @@ import Styles from './styles';
 import AppManager from '../../Components/AppManager';
 import AddressCompleteModal from '../../Screens/AddressCompleteModal';
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
-
 export default class AddShop extends Component {
     constructor(props) {
         super(props);
@@ -37,14 +31,12 @@ export default class AddShop extends Component {
             name: "",
             address: "",
             categoryId: "",
-            categoryData: [],
             categoryArray: [],
             loading: false,
             isModalVisible: false
         })
 
         this.onNextButton = this.onNextButton.bind(this);
-        this.showAreaPicker = this.showAreaPicker.bind(this);
         this.showModal = this.showModal.bind(this);
     }
 
@@ -53,18 +45,18 @@ export default class AddShop extends Component {
         let response = await vendor_get_mother_category()
         this.setState({loading: false});
         
-        let temp1 = []
-        let temp2 = []
         if (response.result == true){
+
+            let temp = []
 
             for (let i = 0; i < response.message.length; i++){
 
-                temp1.push(response.message[i].name);
-                temp2.push(response.message[i]);
+                let item = {key: response.message[i].id, label: response.message[i].name}
+                temp.push(item)
 
             }
 
-            this.setState({categoryData: temp1, categoryArray: temp2});
+            this.setState({categoryArray: temp});
             
         }else{
 
@@ -76,32 +68,32 @@ export default class AddShop extends Component {
 
     }
 
-    categoryPicked(pickedValue, pickedIndex){
+    // categoryPicked(pickedValue, pickedIndex){
 
-        this.setState({category: String(pickedValue)})
-        this.setState({categoryId: this.state.categoryArray[pickedIndex].id});
+    //     this.setState({category: String(pickedValue)})
+    //     this.setState({categoryId: this.state.categoryArray[pickedIndex].id});
 
-    }
+    // }
 
-    showAreaPicker() {
-        Picker.init({
-            pickerData: this.state.categoryData,
-            pickerTitleText: "Please Select Category",
-            pickerConfirmBtnText: "Confirm",
-            pickerCancelBtnText: "Cancel",
-            pickerRowHeight: 32,
-            onPickerConfirm: (pickedValue, pickedIndex) => {
-                this.categoryPicked(pickedValue, pickedIndex);
-            },
-            onPickerCancel: (pickedValue, pickedIndex) => {
-                console.log('category', pickedValue);
-            },
-            onPickerSelect: (pickedValue, pickedIndex) => {
-                console.log('category', pickedValue);
-            }
-        });
-        Picker.show();
-    }
+    // showAreaPicker() {
+    //     Picker.init({
+    //         pickerData: this.state.categoryData,
+    //         pickerTitleText: "Please Select Category",
+    //         pickerConfirmBtnText: "Confirm",
+    //         pickerCancelBtnText: "Cancel",
+    //         pickerRowHeight: 32,
+    //         onPickerConfirm: (pickedValue, pickedIndex) => {
+    //             this.categoryPicked(pickedValue, pickedIndex);
+    //         },
+    //         onPickerCancel: (pickedValue, pickedIndex) => {
+    //             console.log('category', pickedValue);
+    //         },
+    //         onPickerSelect: (pickedValue, pickedIndex) => {
+    //             console.log('category', pickedValue);
+    //         }
+    //     });
+    //     Picker.show();
+    // }
 
     onNextButton() {
 
@@ -142,16 +134,11 @@ export default class AddShop extends Component {
 
     render() {
         return (
-            <View style = {{alignItems: 'center', flexDirection: 'column', flex: 1}}>
-            
-                {/* <MapView
-                    initialRegion={{latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922,longitudeDelta: 0.0421}}
-                    style={{flex: 1, width: '100%', height: 400}}
-                    /> */}
+            <View style = {{flexDirection: 'column', flex: 1}}>
 
                 <Spinner visible={this.state.loading} textStyle={{color: '#FFF'}}/>
 
-                <View style={{width: '90%', alignItems: 'center', paddingBottom: 10, paddingTop: 10}}>
+                <View style={{marginLeft: 15, marginRight: 15, alignItems: 'center', marginBottom: 10, marginTop: 10}}>
                     <View style={Styles.TextInputContainer}>
                         <Image resizeMode='stretch'  source={require('../../Assets/Images/addnewshop_name_icon.png')} style={Styles.iconStyle} />
                         <TextInput
@@ -180,12 +167,28 @@ export default class AddShop extends Component {
 
                     <View style={Styles.TextInputContainer}>
                         <Image resizeMode='stretch'  source={require('../../Assets/Images/addnewshop_category_icon.png')} style={Styles.iconStyle} />
-                        <TextInput
-                            style={Styles.TextInputStyle}
-                            placeholder="Shop Category"
-                            value={this.state.category}
-                            onFocus={this.showAreaPicker.bind(this)}
-                        />
+
+                        <View style={[Styles.TextInputStyle, {justifyContent: 'center'}]}>
+                            <ModalSelector
+                                data={this.state.categoryArray}
+                                initValue="Select Category"
+                                accessible={true}
+                                scrollViewAccessibilityLabel={'Scrollable options'}
+                                cancelButtonAccessibilityLabel={'Cancel Button'}
+                                overlayStyle={{backgroundColor: 'rgba(0,0,0,0.8)'}}
+                                onChange={(option)=>{ 
+                                    this.setState({category: option.label})
+                                    this.setState({categoryId: option.key})
+                                }}>
+
+                                <TextInput
+                                    style={{width: '100%', height: 45}}
+                                    placeholder="Shop Category"
+                                    value={this.state.category}
+                                />
+
+                            </ModalSelector>
+                        </View>
                     </View>
 
                     <TouchableOpacity style={{width: '100%', height: 45, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EC6A41', marginTop: 20}}

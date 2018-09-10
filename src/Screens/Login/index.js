@@ -93,7 +93,7 @@ export default class Login extends Component {
             formData.append('psw', this.state.password);
 
             let json = await vendor_signup(formData)
-
+     
             if (json.result == true){
 
                 this.setState({loading: false})
@@ -101,7 +101,7 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
-                this.props.navigation.navigate("MainTabBarScreen")
+                this.props.navigation.navigate("Main")
                 
             }else{
                 

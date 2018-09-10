@@ -47,7 +47,7 @@ export default class ShopSetting extends Component {
     }
 
     onPermissionButton(){
-        alert('permission')
+        this.props.navigation.navigate("ShopPermissionScreen");
     }
 
     render() {

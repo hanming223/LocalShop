@@ -11,7 +11,7 @@ target 'LocalShop' do
 #Googke Map
 
 rn_path = '../node_modules/react-native'
-  rn_maps_path = '../node_modules/react-native-maps'
+
 
   # See http://facebook.github.io/react-native/docs/integration-with-existing-apps.html#configuring-cocoapods-dependencies
   pod 'yoga', path: "#{rn_path}/ReactCommon/yoga/yoga.podspec"
@@ -40,15 +40,10 @@ rn_path = '../node_modules/react-native'
   #pod 'GLog', :podspec => "#{rn_path}/third-party-podspecs/GLog.podspec"
   pod 'Folly', :podspec => "#{rn_path}/third-party-podspecs/Folly.podspec"
 
-  # react-native-maps dependencies
-  pod 'react-native-maps', path: rn_maps_path
-  pod 'react-native-google-maps', path: rn_maps_path  # Remove this line if you don't want to support GoogleMaps on iOS
-  pod 'GoogleMaps'  # Remove this line if you don't want to support GoogleMaps on iOS
-  pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
+  
 
   
-  pod 'Picker', :path => '../node_modules/react-native-picker'
-
+  # pod 'Picker', :path => '../node_modules/react-native-picker'
 
   # pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
@@ -58,20 +53,6 @@ rn_path = '../node_modules/react-native'
 
   pod 'ReactNativeKeyboardManager', :path => '../node_modules/react-native-keyboard-manager'
 
-end
-
-
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    if target.name == 'react-native-google-maps'
-      target.build_configurations.each do |config|
-        config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
-      end
-    end
-    if target.name == "React"
-      target.remove_from_project
-    end
-  end
 end
 
 

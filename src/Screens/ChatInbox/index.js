@@ -19,7 +19,6 @@ import {
 import { vendor_get_mother_category, vendor_get_similar_products } from "../../Components/Api";
 import AppManager from '../../Components/AppManager';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Picker from 'react-native-picker';
 import Styles from './styles';
 
 const deviceWidth = Dimensions.get("window").width;

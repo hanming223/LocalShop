@@ -20,7 +20,6 @@ import { vendor_get_shop_category, vendor_get_products } from "../../Components/
 import AppManager from '../../Components/AppManager';
 import GridView from 'react-native-super-grid';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Picker from 'react-native-picker';
 import Search from 'react-native-search-box';
 import Styles from './styles';
 import ModalSelector from 'react-native-modal-selector'

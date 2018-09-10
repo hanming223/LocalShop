@@ -112,7 +112,7 @@ export default class VendorSetting extends Component {
             formData.append('surname', this.state.lastName)
         }
 
-        if (this.state.phoneNumber != ''){
+        if (this.phoneRef.getValue() != ''){
             formData.append('phone', this.phoneRef.getValue())
         }
         
@@ -121,17 +121,23 @@ export default class VendorSetting extends Component {
             formData.append('confirmPsw', this.state.confirmPassword)
         }
 
-        console.log('xxxxx', formData)
-
         let response = await vendor_update_info(formData)
-
-        alert(response.result)
         
-        this.setState({loading: false})
-
         if (response.result == true){
 
+            this.setState({loading: false})
             this.props.navigation.goBack()
+
+        }else{
+
+            Alert.alert(
+                'Oops!',
+                'Something went wrong.',
+                [
+                  {text: 'OK', onPress: () => this.setState({loading: false})},
+                ],
+                { cancelable: false }
+              )
 
         }
 

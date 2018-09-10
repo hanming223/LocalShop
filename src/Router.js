@@ -25,6 +25,8 @@ import ShopSetting from './Screens/ShopSetting';
 import ShopScheduleUpdate from './Screens/ShopScheduleUpdate';
 import VendorSetting from './Screens/VendorSetting';
 import AuthLoadingScreen from './Screens/AuthLoadingScreen'
+import ShopPermission from './Screens/ShopPermission'
+import VendorInvite from './Screens/VendorInvite'
 
 
 console.disableYellowBox = true;
@@ -45,8 +47,7 @@ export const PrimaryNav = StackNavigator({
     },
 
     ShopHomeScreen: { 
-        screen: ShopHome,
-        
+        screen: ShopHome
     },
 
     AddShopScreen: { 
@@ -161,6 +162,24 @@ export const PrimaryNav = StackNavigator({
         screen: VendorSetting,
         navigationOptions: ({ navigation }) => ({
             headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Vendor Setting</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerTintColor: 'white'
+        }), 
+    },
+
+    ShopPermissionScreen: { 
+        screen: ShopPermission,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Manage Shop Permission</Text>  ,
+            headerStyle: { backgroundColor: '#EC6A41' },
+            headerTintColor: 'white'
+        }), 
+    },
+
+    VendorInviteScreen: { 
+        screen: VendorInvite,
+        navigationOptions: ({ navigation }) => ({
+            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Invite Vendor</Text>  ,
             headerStyle: { backgroundColor: '#EC6A41' },
             headerTintColor: 'white'
         }), 
