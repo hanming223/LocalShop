@@ -39,10 +39,10 @@ export default class ShopList extends Component {
 
     async componentDidMount() {
 
-        this.fetchShopList();
+        this.fetchShopList()
 
         EventRegister.addEventListener('refreshShopList', (data) => {
-            this.fetchShopList();
+            this.fetchShopListWithoutIndicator()
         })
 
     }
@@ -74,6 +74,29 @@ export default class ShopList extends Component {
 
     }
 
+    async fetchShopListWithoutIndicator(){
+
+        let json = await vendor_getShopList()
+
+        if (json.result == true){
+            
+            let shopList = json.message;
+            
+            let temp = [];
+            
+            for (i = 0; i < shopList.length; i++){
+
+                let shop = shopList[i].shop;
+                temp.push(shop);
+                
+            }
+
+            this.setState({shopArray: temp});
+
+        }
+
+    }
+
     async refreshShopList(){
 
         this.setState({refreshing: true});
@@ -81,7 +104,7 @@ export default class ShopList extends Component {
         let json = await vendor_getShopList()
 
         this.setState({refreshing: false});
-        console.log('resultt', json);
+        
         if (json.result == true){
             
             let shopList = json.message;
