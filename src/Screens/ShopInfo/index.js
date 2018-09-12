@@ -165,6 +165,7 @@ export default class ShopInfo extends Component {
                                 style={Styles.TextInputStyle}
                                 placeholder="Company Name"
                                 onChangeText={(text) => this.setState({companyName: text})}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -173,6 +174,7 @@ export default class ShopInfo extends Component {
                                 style={Styles.TextInputStyle}
                                 placeholder="Tax Code"
                                 onChangeText={(text) => this.setState({plva: text})}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -181,6 +183,7 @@ export default class ShopInfo extends Component {
                                 style={Styles.TextInputStyle}
                                 placeholder="Administrator/Owner"
                                 onChangeText={(text) => this.setState({owner: text})}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -197,6 +200,7 @@ export default class ShopInfo extends Component {
                                 style={Styles.TextInputStyle}
                                 placeholder="City"
                                 onChangeText={(text) => this.setState({city: text})}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -205,6 +209,7 @@ export default class ShopInfo extends Component {
                                 style={Styles.TextInputStyle}
                                 placeholder="Address"
                                 onChangeText={(text) => this.setState({address: text})}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 

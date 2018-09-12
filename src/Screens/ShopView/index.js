@@ -189,6 +189,7 @@ export default class ShopView extends Component {
                                 onChangeText={(text) => this.setState({story: text})}
                                 autoCapitalize='none'
                                 multiline={true}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 

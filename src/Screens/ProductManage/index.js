@@ -224,6 +224,7 @@ export default class ProductManage extends Component {
                                 autoCapitalize='none'
                                 editable={this.state.isCategoryFieldEnabled} 
                                 selectTextOnFocus={this.state.isCategoryFieldEnabled}
+                                underlineColorAndroid='transparent'
                             />
 
                         </ModalSelector>

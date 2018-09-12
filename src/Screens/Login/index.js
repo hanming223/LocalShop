@@ -154,6 +154,7 @@ export default class Login extends Component {
                             onChangeText={(text) => this.setState({email: text})}
                             autoCapitalize='none'
                             value={this.state.email}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
                     <View style={Styles.TextInputContainer}>
@@ -164,6 +165,7 @@ export default class Login extends Component {
                             value={this.state.password}
                             autoCapitalize='none'
                             secureTextEntry={true}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 

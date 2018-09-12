@@ -146,6 +146,7 @@ export default class AddShop extends Component {
                             placeholder="Shop Name"
                             onChangeText={(text) => this.setState({name: text})}
                             value={this.state.name}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
                     <View style={Styles.TextInputContainer}>
@@ -162,6 +163,7 @@ export default class AddShop extends Component {
                             value={this.state.address}
                             blurOnSubmit={false} 
                             onFocus={this.showModal.bind(this)}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 
@@ -185,6 +187,7 @@ export default class AddShop extends Component {
                                     style={{width: '100%', height: 45}}
                                     placeholder="Shop Category"
                                     value={this.state.category}
+                                    underlineColorAndroid='transparent'
                                 />
 
                             </ModalSelector>

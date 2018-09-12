@@ -544,6 +544,7 @@ export default class AddNewProduct extends Component {
                                 onChangeText={(text) => this.setState({productName: text})}
                                 autoCapitalize='none'
                                 value={this.state.productName}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -563,6 +564,7 @@ export default class AddNewProduct extends Component {
                                     onChangeText={(text) => this.setState({productCategory: text})}
                                     value={this.state.productCategory}
                                     autoCapitalize='none'
+                                    underlineColorAndroid='transparent'
                                 />
                             </ModalSelector>
                         </View>
@@ -575,6 +577,7 @@ export default class AddNewProduct extends Component {
                                 value={this.state.productDescription}
                                 autoCapitalize='none'
                                 multiline={true}
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -586,6 +589,7 @@ export default class AddNewProduct extends Component {
                                 value={this.state.productPrice}
                                 autoCapitalize='none'
                                 keyboardType='decimal-pad'
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -596,6 +600,7 @@ export default class AddNewProduct extends Component {
                                 onChangeText={(text) => this.setState({productColor: text})}
                                 value={this.state.productColor}
                                 autoCapitalize='none'
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -606,6 +611,7 @@ export default class AddNewProduct extends Component {
                                 onChangeText={(text) => this.setState({productCount: text})}
                                 value={this.state.productCount}
                                 autoCapitalize='none'
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -624,6 +630,7 @@ export default class AddNewProduct extends Component {
                                     placeholder="Brand"
                                     value={this.state.productBrand}
                                     autoCapitalize='none'
+                                    underlineColorAndroid='transparent'
                                 />
                             </ModalSelector>
                         </View>
@@ -635,6 +642,7 @@ export default class AddNewProduct extends Component {
                                 onChangeText={(text) => this.setState({productModel: text})}
                                 value={this.state.productModel}
                                 autoCapitalize='none'
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -674,6 +682,7 @@ export default class AddNewProduct extends Component {
                                               
 
                                             }}
+                                            underlineColorAndroid='transparent'
                                         />
 
                                     </ModalSelector>

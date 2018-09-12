@@ -159,6 +159,7 @@ export default class AddProduct extends Component {
                             onChangeText={(text) => this.setState({productName: text})}
                             autoCapitalize='none'
                             value={this.state.productName}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 

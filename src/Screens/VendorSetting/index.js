@@ -161,6 +161,7 @@ export default class VendorSetting extends Component {
                             onChangeText={(text) => this.setState({firstName: text})}
                             autoCapitalize='none'
                             value={this.state.firstName}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 
@@ -171,6 +172,7 @@ export default class VendorSetting extends Component {
                             onChangeText={(text) => this.setState({lastName: text})}
                             autoCapitalize='none'
                             value={this.state.lastName}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 
@@ -182,6 +184,7 @@ export default class VendorSetting extends Component {
                             onChangeText={(text) => this.setState({emailAddress: text})}
                             autoCapitalize='none'
                             value={this.state.emailAddress}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 
@@ -216,6 +219,7 @@ export default class VendorSetting extends Component {
                             onChangeText={(text) => this.setState({password: text})}
                             autoCapitalize='none'
                             value={this.state.email}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
 
@@ -226,6 +230,7 @@ export default class VendorSetting extends Component {
                             onChangeText={(text) => this.setState({confirmPassword: text})}
                             autoCapitalize='none'
                             value={this.state.email}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
                     

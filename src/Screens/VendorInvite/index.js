@@ -151,6 +151,7 @@ export default class VendorInvite extends Component {
                             keyboardType="email-address"
                             onChangeText={(text) => this.setState({email: text})}
                             value={this.state.email}
+                            underlineColorAndroid='transparent'
                         />
                     </View>
                     
@@ -173,6 +174,7 @@ export default class VendorInvite extends Component {
                                     style={{width: '100%', height: 45}}
                                     placeholder="Permission"
                                     value={this.state.selectedRank.label}
+                                    underlineColorAndroid='transparent'
                                 />
 
                             </ModalSelector>

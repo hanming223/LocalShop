@@ -40,7 +40,8 @@ export const PrimaryNav = StackNavigator({
     ShopListScreen: { 
         screen: ShopList,
         navigationOptions: ({ navigation }) => ({
-            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Hello Vendors!</Text>  ,
+            headerTitle: 'Hello Vendors!',
+            headerTitleStyle: {textAlign: 'center', flex: 1},
             headerStyle: { backgroundColor: '#EC6A41'},
             headerTintColor: 'white'
         }), 
@@ -53,7 +54,8 @@ export const PrimaryNav = StackNavigator({
     AddShopScreen: { 
         screen: AddShop,
         navigationOptions: ({ navigation }) => ({
-            headerTitle: <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>Add New Shop</Text>  ,
+            headerTitle: 'Add New Shop' ,
+            headerTitleStyle: {textAlign: 'center', width: '100%', backgroundColor: 'black'},
             headerStyle: { backgroundColor: '#EC6A41' },
             headerTintColor: 'white'
         }), 

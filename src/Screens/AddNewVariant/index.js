@@ -472,6 +472,7 @@ export default class AddNewVariant extends Component {
                                 onChangeText={(text) => this.setState({productColor: text})}
                                 value={this.state.productColor}
                                 autoCapitalize='none'
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -482,6 +483,7 @@ export default class AddNewVariant extends Component {
                                 onChangeText={(text) => this.setState({productModel: text})}
                                 value={this.state.productModel}
                                 autoCapitalize='none'
+                                underlineColorAndroid='transparent'
                             />
                         </View>
 
@@ -521,6 +523,7 @@ export default class AddNewVariant extends Component {
                                               
 
                                             }}
+                                            underlineColorAndroid='transparent'
                                         />
 
                                     </ModalSelector>
