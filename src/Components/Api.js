@@ -37,6 +37,7 @@ const API_VENDOR_GET_SHOP_PERMISSION = API_ROOT + "getShopPermissions"
 const API_VENDOR_GET_RANK_LIST = API_ROOT + "getRankList"
 const API_VENDOR_ADD_SHOP_PERMISSION = API_ROOT + "addShopPermission"
 const API_VENDOR_UPDATE_SHOP_PERMISSION = API_ROOT + "updateShopPermission"
+const API_VENDOR_SAVE_FIREBASE_TOKEN = API_ROOT + "saveFirebaseToken"
 
 
 export async function vendor_getShopList() {
@@ -163,6 +164,9 @@ export async function vendor_update_shop_permission(json) {
     return await postJSONWithToken(API_VENDOR_UPDATE_SHOP_PERMISSION, json)
 }
 
+export async function vendor_save_firebase_token(json) {
+    return await postJSONWithToken(API_VENDOR_SAVE_FIREBASE_TOKEN, json)
+}
 
 
 export async function getJSON(url){

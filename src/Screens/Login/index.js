@@ -16,7 +16,7 @@ import {
     Alert
 } from 'react-native';
 
-import { vendor_getShopList, vendor_login, vendor_signup } from "../../Components/Api";
+import { vendor_save_firebase_token, vendor_login, vendor_signup } from "../../Components/Api";
 import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
 
@@ -70,8 +70,13 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
-                
+
                 this.props.navigation.navigate("Main")
+
+                let fcmToken = await AsyncStorage.getItem('fcmToken', null);
+                let formData = new FormData();
+                formData.append('token', fcmToken);
+                let json = await vendor_save_firebase_token(formData)
                 
             }else{
                 
@@ -101,7 +106,13 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("is_loggedin", JSON.stringify(true))
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
+
                 this.props.navigation.navigate("Main")
+
+                let fcmToken = await AsyncStorage.getItem('fcmToken', null);
+                let formData = new FormData();
+                formData.append('token', fcmToken);
+                let json = await vendor_save_firebase_token(formData)
                 
             }else{
                 
