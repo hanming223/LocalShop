@@ -92,6 +92,8 @@ PODS:
   - ReactNativeKeyboardManager (4.0.13-9):
     - IQKeyboardManager (= 4.0.13)
     - React
+  - RNDeviceInfo (0.21.5):
+    - React
   - yoga (0.55.4.React)
 
 DEPENDENCIES:
@@ -115,6 +117,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - ReactNativeKeyboardManager (from `../node_modules/react-native-keyboard-manager`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -143,6 +146,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   ReactNativeKeyboardManager:
     :path: "../node_modules/react-native-keyboard-manager"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -163,8 +168,9 @@ SPEC CHECKSUMS:
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   react-native-image-picker: b303e31c3c4ada1d7cb1342423d328d2efb07fb3
   ReactNativeKeyboardManager: 8f6b306c53db397541295a03e064bdba07024b5c
+  RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 4889a0ee97dca2c652ffe969c3202e20241746aa
+PODFILE CHECKSUM: f52e960d2e341e3878c894480c8ab56ba1612bf3
 
 COCOAPODS: 1.5.3

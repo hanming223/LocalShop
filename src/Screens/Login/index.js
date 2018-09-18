@@ -19,6 +19,7 @@ import {
 import { vendor_save_firebase_token, vendor_login, vendor_signup } from "../../Components/Api";
 import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './styles';
+import DeviceInfo from 'react-native-device-info';
 
 import MainTaBar from "../../Router.js"
 
@@ -40,7 +41,7 @@ export default class Login extends Component {
     }
 
     async componentDidMount() {
-
+        
     }
 
     onSigninMode(){
@@ -57,11 +58,11 @@ export default class Login extends Component {
 
         if (this.state.isSignin == 0){
 
-            let formData = new FormData();
-            formData.append('usr', this.state.email);
-            formData.append('psw', this.state.password);
+            let params = new FormData();
+            params.append('usr', this.state.email);
+            params.append('psw', this.state.password);
 
-            let json = await vendor_login(formData)
+            let json = await vendor_login(params)
 
             if (json.result == true){
 
@@ -71,13 +72,18 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
 
-                this.props.navigation.navigate("Main")
-
                 let fcmToken = await AsyncStorage.getItem('fcmToken', null);
                 let formData = new FormData();
                 formData.append('token', fcmToken);
-                let json = await vendor_save_firebase_token(formData)
-                
+                const uniqueId = DeviceInfo.getUniqueID();
+                formData.append('deviceId', uniqueId);
+
+                let response = await vendor_save_firebase_token(formData)
+
+                // alert(response.result)
+        
+                this.props.navigation.navigate("Main")
+
             }else{
                 
                 Alert.alert(
@@ -93,11 +99,11 @@ export default class Login extends Component {
 
         }else{
             
-            let formData = new FormData();
-            formData.append('email', this.state.email);
-            formData.append('psw', this.state.password);
+            let params = new FormData();
+            params.append('email', this.state.email);
+            params.append('psw', this.state.password);
 
-            let json = await vendor_signup(formData)
+            let json = await vendor_signup(params)
      
             if (json.result == true){
 
@@ -107,12 +113,17 @@ export default class Login extends Component {
                 await AsyncStorage.setItem("token", json.message.token)
                 await AsyncStorage.setItem("refreshToken", json.message.refreshToken)
 
-                this.props.navigation.navigate("Main")
-
                 let fcmToken = await AsyncStorage.getItem('fcmToken', null);
                 let formData = new FormData();
                 formData.append('token', fcmToken);
-                let json = await vendor_save_firebase_token(formData)
+                const uniqueId = DeviceInfo.getUniqueID();
+                formData.append('deviceId', uniqueId);
+
+                let response = await vendor_save_firebase_token(formData)
+
+                // alert(response.result)
+
+                this.props.navigation.navigate("Main")
                 
             }else{
                 

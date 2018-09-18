@@ -12,7 +12,7 @@ import {Platform, AsyncStorage, View, SafeAreaView, Alert} from 'react-native';
 import {PrimaryNav, StartNav, MainTabBar, AppSwitch} from "./src/Router";
 import firebase from 'react-native-firebase';
 import { vendor_save_firebase_token } from "./src/Components/Api";
-
+import DeviceInfo from 'react-native-device-info';
 
 export default class App extends Component {
 
@@ -36,6 +36,9 @@ export default class App extends Component {
 
     let formData = new FormData();
     formData.append('token', fcmToken);
+    const uniqueId = DeviceInfo.getUniqueID();
+    formData.append('deviceId', uniqueId);
+
     let json = await vendor_save_firebase_token(formData)
 
   }
